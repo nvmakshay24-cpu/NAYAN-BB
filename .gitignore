@@ -1,0 +1,45 @@
+﻿# Environments & Secrets
+.env
+.env.local
+*.env
+*.pem
+*.key
+
+# Binaries & Large Executables
+cloudflared.exe
+*.exe
+
+# Python & Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node & Frontend dependencies
+node_modules/
+frontend/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Build outputs
+dist/
+frontend/dist/
+build/
+*.egg-info/
+
+# IDE & OS files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

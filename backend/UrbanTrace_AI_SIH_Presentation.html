@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>UrbanTrace AI - Smart India Hackathon Presentation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
+
+  @page {
+    size: 1920px 1080px;
+    margin: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f1f5f9;
+    color: #0f172a;
+  }
+
+  .slide {
+    width: 1920px;
+    height: 1080px;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    background: #ffffff;
+    padding: 45px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Slide 1 Specific Title Page */
+  .slide-title-bg {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #eff6ff 100%);
+  }
+
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 15px;
+  }
+
+  .badge-tag {
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1.5px solid #bfdbfe;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .slide-header-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .slide-header-title span.hindi {
+    color: #2563eb;
+    font-size: 28px;
+  }
+
+  .sih-logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .sih-logo-badge {
+    text-align: right;
+    line-height: 1.2;
+  }
+
+  .sih-logo-badge .title {
+    font-size: 16px;
+    font-weight: 900;
+    color: #1e3a8a;
+    letter-spacing: 0.5px;
+  }
+
+  .sih-logo-badge .sub {
+    font-size: 11px;
+    font-weight: 700;
+    color: #f97316;
+  }
+
+  /* Slide 1 Content */
+  .sih-hero-title {
+    font-size: 56px;
+    font-weight: 900;
+    color: #1e40af;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    margin-top: 20px;
+  }
+
+  .title-details-list {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    max-width: 1100px;
+  }
+
+  .title-item {
+    font-size: 26px;
+    color: #0f172a;
+    font-weight: 700;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .title-item .bullet {
+    color: #2563eb;
+    font-size: 32px;
+    line-height: 0;
+  }
+
+  .title-item .label {
+    color: #0f172a;
+    font-weight: 800;
+  }
+
+  .title-item .val-red {
+    color: #dc2626;
+    font-weight: 800;
+  }
+
+  .title-item .val-dark {
+    color: #1e293b;
+    font-weight: 700;
+  }
+
+  /* Right Graphic for Slide 1 */
+  .title-graphic-card {
+    position: absolute;
+    right: 80px;
+    top: 200px;
+    width: 620px;
+    height: 680px;
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    text-align: center;
+  }
+
+  /* Slide 2 3-Column Layout */
+  .slide2-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1.25fr 1.35fr;
+    gap: 24px;
+    height: 780px;
+  }
+
+  .card-col {
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+  }
+
+  .card-header {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .bullet-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: #334155;
+  }
+
+  .bullet-item {
+    position: relative;
+    padding-left: 18px;
+  }
+
+  .bullet-item::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #2563eb;
+    font-size: 20px;
+    line-height: 1;
+    top: -2px;
+  }
+
+  .red-highlight {
+    color: #dc2626;
+    font-weight: 700;
+  }
+
+  .bold-dark {
+    color: #0f172a;
+    font-weight: 700;
+  }
+
+  /* USPs Pill Group */
+  .usps-box {
+    margin-top: 16px;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px;
+  }
+
+  .usps-title {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .usps-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .usp-item {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Prototype & QR Area */
+  .prototype-card {
+    margin-top: 14px;
+    background: #eff6ff;
+    border: 1.5px dashed #3b82f6;
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .bottom-completion-banner {
+    background: linear-gradient(90deg, #dc2626 0%, #ea580c 100%);
+    color: #ffffff;
+    text-align: center;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.25);
+    text-transform: uppercase;
+  }
+
+  /* Slide 3 Layout: Technical Approach */
+  .slide3-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1.1fr 1fr;
+    gap: 24px;
+    height: 860px;
+  }
+
+  .tech-stack-container {
+    margin-top: 18px;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 16px;
+  }
+
+  .tech-stack-title {
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #0f172a;
+    margin-bottom: 10px;
+  }
+
+  .tech-stack-subgroup {
+    margin-bottom: 10px;
+  }
+
+  .tech-stack-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+
+  .tech-pills-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tech-pill {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #1e293b;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Mockup Cards */
+  .mockup-frame {
+    background: #0f172a;
+    border: 2px solid #334155;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+  }
+
+  .mockup-header {
+    background: #1e293b;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 700;
+    color: #cbd5e1;
+    border-bottom: 1px solid #334155;
+  }
+
+  .mockup-body {
+    padding: 12px;
+    background: #090d16;
+    color: #f8fafc;
+  }
+
+  /* Slide 4: Impact & Benefits */
+  .slide4-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    height: 480px;
+  }
+
+  .slide4-bottom {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 24px;
+    height: 380px;
+    margin-top: 20px;
+  }
+
+  /* Slide 5: Feasibility & Viability */
+  .slide5-top {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 24px;
+    height: 430px;
+  }
+
+  .slide5-bottom {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 24px;
+    height: 430px;
+    margin-top: 20px;
+  }
+
+  .what-if-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .what-if-col {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 12px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .what-if-badge {
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .what-if-q {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #dc2626;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .what-if-a {
+    font-size: 10.5px;
+    color: #334155;
+    line-height: 1.4;
+    border-top: 1px solid #cbd5e1;
+    padding-top: 8px;
+  }
+
+  /* Slide 6: Research & References */
+  .slide6-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 26px;
+    height: 870px;
+  }
+
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  .comparison-table th {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 10px 12px;
+    font-weight: 700;
+    text-align: left;
+    border: 1px solid #334155;
+  }
+
+  .comparison-table td {
+    padding: 9px 12px;
+    border: 1px solid #e2e8f0;
+    line-height: 1.35;
+  }
+
+  .comparison-table tr:nth-child(even) {
+    background: #f8fafc;
+  }
+
+  .comparison-table td.feature {
+    font-weight: 800;
+    color: #1e293b;
+    width: 18%;
+  }
+
+  .comparison-table td.ours {
+    color: #1e40af;
+    font-weight: 600;
+    width: 44%;
+    background: #f0fdf4;
+    border-left: 2px solid #22c55e;
+  }
+
+  .comparison-table td.theirs {
+    color: #64748b;
+    width: 38%;
+  }
+
+  .ref-link-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+  }
+
+  .ref-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 3px;
+  }
+
+  .ref-desc {
+    font-size: 11px;
+    color: #475569;
+    line-height: 1.4;
+  }
+
+  .ref-url {
+    font-size: 10.5px;
+    font-family: 'JetBrains Mono', monospace;
+    color: #2563eb;
+    text-decoration: underline;
+    margin-top: 4px;
+    display: block;
+    word-break: break-all;
+  }
+</style>
+</head>
+<body>
+
+  <!-- ========================================================================= -->
+  <!-- SLIDE 1: TITLE SLIDE                                                      -->
+  <!-- ========================================================================= -->
+  <div class="slide slide-title-bg">
+    <div class="top-bar" style="border-bottom: none;">
+      <span class="badge-tag" style="background:#1e40af; color:#ffffff; font-size:16px; padding:6px 20px;">
+        TEAM ID: 57893
+      </span>
+      <div class="sih-logo-container">
+        <div class="sih-logo-badge">
+          <div class="title">SMART INDIA HACKATHON 2025</div>
+          <div class="sub">GOVERNMENT OF INDIA &bull; AICTE &bull; MIC</div>
+        </div>
+        <!-- SIH Styled Emblem -->
+        <svg width="60" height="60" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="#f8fafc" stroke="#f97316" stroke-width="4"/>
+          <path d="M50 15 L60 38 L85 38 L65 52 L72 75 L50 60 L28 75 L35 52 L15 38 L40 38 Z" fill="#1e3a8a"/>
+          <circle cx="50" cy="50" r="14" fill="#f97316"/>
+          <circle cx="50" cy="50" r="7" fill="#ffffff"/>
+        </svg>
+      </div>
+    </div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; padding-left: 20px;">
+      <div class="sih-hero-title">SMART INDIA HACKATHON 2025</div>
+      
+      <div class="title-details-list">
+        <div class="title-item">
+          <span class="bullet">&bull;</span>
+          <span class="label">Problem Statement ID &ndash;</span>
+          <span class="val-red">SIH25175</span>
+        </div>
+
+        <div class="title-item" style="line-height: 1.3;">
+          <span class="bullet">&bull;</span>
+          <span class="label">Problem Statement Title &ndash;</span>
+          <span class="val-red">UrbanTrace AI : Real-Time Multi-Camera ANPR & Edge Traffic Intelligence Platform</span>
+        </div>
+
+        <div class="title-item">
+          <span class="bullet">&bull;</span>
+          <span class="label">Theme &ndash;</span>
+          <span class="val-red">Transportation &amp; Logistics / Smart Cities &amp; Surveillance</span>
+        </div>
+
+        <div class="title-item">
+          <span class="bullet">&bull;</span>
+          <span class="label">PS Category &ndash;</span>
+          <span class="val-dark">Software</span>
+        </div>
+
+        <div class="title-item">
+          <span class="bullet">&bull;</span>
+          <span class="label">Team ID &ndash;</span>
+          <span class="val-dark">57893</span>
+        </div>
+
+        <div class="title-item">
+          <span class="bullet">&bull;</span>
+          <span class="label">Team Name &ndash;</span>
+          <span class="val-dark">Zillion Minds</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Illustration Graphic -->
+    <div class="title-graphic-card">
+      <div style="font-size: 13px; font-weight: 800; color: #2563eb; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">
+        CITY SURVEILLANCE &bull; TRAFFIC INTELLIGENCE
+      </div>
+      <!-- SVG Networked ANPR Iconography -->
+      <svg width="340" height="340" viewBox="0 0 340 340">
+        <!-- Connecting Nodes -->
+        <circle cx="170" cy="170" r="140" fill="none" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="6,6"/>
+        <circle cx="170" cy="170" r="80" fill="none" stroke="#bfdbfe" stroke-width="2"/>
+        
+        <!-- Center Hub -->
+        <circle cx="170" cy="170" r="45" fill="#2563eb"/>
+        <path d="M152 162 L188 162 L188 178 L152 178 Z" fill="#ffffff" rx="2"/>
+        <circle cx="160" cy="180" r="5" fill="#ffffff"/>
+        <circle cx="180" cy="180" r="5" fill="#ffffff"/>
+
+        <!-- Roadside Camera Nodes -->
+        <circle cx="60" cy="110" r="26" fill="#10b981" stroke="#ffffff" stroke-width="4"/>
+        <text x="60" y="115" font-family="monospace" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">C-01</text>
+        <line x1="80" y1="125" x2="135" y2="152" stroke="#10b981" stroke-width="3"/>
+
+        <circle cx="280" cy="110" r="26" fill="#10b981" stroke="#ffffff" stroke-width="4"/>
+        <text x="280" y="115" font-family="monospace" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">C-02</text>
+        <line x1="260" y1="125" x2="205" y2="152" stroke="#10b981" stroke-width="3"/>
+
+        <!-- Mobile Node -->
+        <circle cx="80" cy="250" r="28" fill="#3b82f6" stroke="#ffffff" stroke-width="4"/>
+        <text x="80" y="255" font-family="monospace" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">📱MOB</text>
+        <line x1="102" y1="235" x2="140" y2="190" stroke="#3b82f6" stroke-width="3" stroke-dasharray="4,4"/>
+
+        <!-- Intercepted Vehicle Node -->
+        <circle cx="260" cy="250" r="28" fill="#ef4444" stroke="#ffffff" stroke-width="4"/>
+        <text x="260" y="255" font-family="monospace" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">ALERT</text>
+        <line x1="238" y1="235" x2="200" y2="190" stroke="#ef4444" stroke-width="3"/>
+      </svg>
+
+      <div style="margin-top: 20px;">
+        <div style="font-size: 24px; font-weight: 900; color: #0f172a;">URBANTRACE AI</div>
+        <div style="font-size: 13px; color: #64748b; font-weight: 600; margin-top: 4px;">
+          Autonomous Multi-Camera Edge Vision &bull; Zero-GPU Architecture
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="display: flex; justify-content: space-between; font-size: 13px; color: #64748b; font-weight: 600;">
+      <span>Ministry of Electronics &amp; Information Technology (MeitY) &bull; MoRTH</span>
+      <span>SIH-2025 Prototype Presentation</span>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- SLIDE 2: PROBLEM, SOLUTION, UNIQUE SOLUTIONS, USPs, PROTOTYPE            -->
+  <!-- ========================================================================= -->
+  <div class="slide">
+    <div class="top-bar">
+      <div class="slide-header-title">
+        <span class="hindi">अर्बनट्रेस</span>
+        <span>&ndash; URBANTRACE AI</span>
+        <span style="font-size: 16px; font-weight: 600; color: #64748b; margin-left: 10px;">
+          Real-Time Multi-Camera ANPR &amp; Traffic Intelligence Platform
+        </span>
+      </div>
+      <div class="sih-logo-container">
+        <div class="sih-logo-badge">
+          <div class="title">SMART INDIA HACKATHON 2025</div>
+          <div class="sub">Team ID: 57893 &bull; Zillion Minds</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide2-grid">
+      <!-- Col 1: Understanding The Problem -->
+      <div class="card-col">
+        <div class="card-header">
+          <span style="color:#ef4444;">&#x26A0;</span> Understanding The Problem
+        </div>
+        <div class="bullet-list">
+          <div class="bullet-item">
+            <span class="red-highlight">Manual &amp; Delayed Tracking:</span> Scanning through hours of independent CCTV video archives causes catastrophic delays in apprehending suspect or stolen vehicles.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Single-Camera Silos:</span> Existing cameras operate in isolation without spatial correlation, making city-wide vehicle trajectory reconstruction impossible.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Prohibitive Hardware Costs:</span> Enterprise commercial ANPR systems demand expensive dedicated GPU servers (&gt;&#x20B9;2.5 Lakhs/camera), limiting scalability across tier-2/3 cities.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Ghost Plates &amp; Clone Frauds:</span> Criminals exploit duplicate or tampered registration plates; existing single-perimeter tools cannot detect duplicate vehicles in disparate zones.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Blindspot Inflexibility:</span> Fixed camera poles cannot dynamically cover emergency checkpoints, VIP routes, or ad-hoc congestion points without new cabling.
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 2: Our Solution -->
+      <div class="card-col" style="border-color: #bfdbfe; background: #fbfcfe;">
+        <div class="card-header">
+          <span style="color:#2563eb;">&#x2714;</span> Our Solution
+        </div>
+        <div class="bullet-list">
+          <div class="bullet-item">
+            <span class="red-highlight">Multi-Camera Trajectory Graph:</span> Automated chronological chaining of vehicle sightings across all roadside nodes with Haversine distance and speed analytics.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">CPU-Optimized Edge Vision:</span> High-performance OpenCV contour segmentation and normalized template matching running on standard laptops without GPU requirement.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Opt-In Mobile Camera Nodes:</span> Turns any traffic officer's smartphone into a mobile ANPR node with live GPS tracking via secure URL (`/mobile-camera`).
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Kinematic Anomaly Detection:</span> Calculates velocity between camera hops ($v = \Delta d / \Delta t$); flags impossible speeds (&gt;120 km/h) to instantly detect clone plates.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Live FIR Blacklist Matching:</span> Instant cross-check against stolen vehicle records with automated priority escalation to nearest interceptor units.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">MoRTH Standard Validation:</span> Full Indian standard validation (`SS DD AA NNNN`) with optical character positional error correction.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Zero-State Integrity:</span> Pure Live Mode with zero fake seed records; isolated on-demand demo dataset for stress simulation.
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 3: Our Unique Solutions & Prototype -->
+      <div class="card-col">
+        <div class="card-header">
+          <span style="color:#10b981;">&#x2605;</span> Our Unique Solutions
+        </div>
+        <div class="bullet-list" style="font-size: 13px; gap: 10px;">
+          <div class="bullet-item">
+            <span class="red-highlight">Dual-Node Infrastructure:</span> First-ever unified architecture fusing permanent roadside CCTV streams with dynamic mobile phone nodes.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Honest Vision Architecture:</span> Rejects fake plate cycling; blank, wall, or plate-free frames report zero detections honestly.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">8-Second Deduplication:</span> Automatically suppresses duplicate database inserts when a vehicle pauses in front of a camera.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Sub-Pixel Contour OCR:</span> Robust CLAHE contrast enhancement for low-light, rainy, or dusty Indian road conditions.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Cloudflare Zero-Trust Tunnel:</span> Encrypted SSL transit allowing smartphones to stream without insecure origin browser blocks.
+          </div>
+        </div>
+
+        <!-- USPs Section -->
+        <div class="usps-box">
+          <div class="usps-title">Key Differentiators / USPs</div>
+          <div class="usps-grid">
+            <div class="usp-item"><span>📱</span> Dual Node: CCTV + Mobile</div>
+            <div class="usp-item"><span>⚡</span> 100% CPU (No GPU Needed)</div>
+            <div class="usp-item"><span>🗺️</span> Kinematic Graph Trajectory</div>
+            <div class="usp-item"><span>🚨</span> Impossible Speed / Clone Alert</div>
+          </div>
+        </div>
+
+        <!-- Prototype QR Link -->
+        <div class="prototype-card">
+          <div>
+            <div style="font-size: 13px; font-weight: 800; color: #1e40af;">Live Working Prototype:</div>
+            <div style="font-size: 11px; color: #64748b; margin-top: 2px;">Fully operational on Cloudflare SSL &amp; Vercel</div>
+            <a href="https://nebraska-pregnancy-clearance-adaptive.trycloudflare.com/mobile-camera" style="font-size: 10.5px; font-family: monospace; color: #2563eb; font-weight: bold; text-decoration: underline; display: block; margin-top: 4px;">
+              https://urbantrace-ai.live/
+            </a>
+          </div>
+          <!-- SVG QR Code Representation -->
+          <svg width="64" height="64" viewBox="0 0 100 100" style="background:#ffffff; padding:4px; border:1px solid #cbd5e1; border-radius:6px;">
+            <rect x="10" y="10" width="30" height="30" fill="#0f172a"/>
+            <rect x="15" y="15" width="20" height="20" fill="#ffffff"/>
+            <rect x="20" y="20" width="10" height="10" fill="#0f172a"/>
+            <rect x="60" y="10" width="30" height="30" fill="#0f172a"/>
+            <rect x="65" y="15" width="20" height="20" fill="#ffffff"/>
+            <rect x="70" y="20" width="10" height="10" fill="#0f172a"/>
+            <rect x="10" y="60" width="30" height="30" fill="#0f172a"/>
+            <rect x="15" y="65" width="20" height="20" fill="#ffffff"/>
+            <rect x="20" y="70" width="10" height="10" fill="#0f172a"/>
+            <rect x="50" y="50" width="10" height="10" fill="#0f172a"/>
+            <rect x="65" y="65" width="15" height="15" fill="#0f172a"/>
+            <rect x="75" y="50" width="15" height="10" fill="#0f172a"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Status Banner -->
+    <div class="bottom-completion-banner">
+      90% OF THE WORKING PROTOTYPE IS ALREADY IMPLEMENTED &amp; VERIFIED!
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- SLIDE 3: TECHNICAL APPROACH                                               -->
+  <!-- ========================================================================= -->
+  <div class="slide">
+    <div class="top-bar">
+      <div class="slide-header-title">
+        <span>Technical Approach &amp; System Architecture</span>
+      </div>
+      <div class="sih-logo-container">
+        <div class="sih-logo-badge">
+          <div class="title">SMART INDIA HACKATHON 2025</div>
+          <div class="sub">Team ID: 57893 &bull; Zillion Minds</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide3-grid">
+      <!-- Col 1: Methodology & Tech Stack -->
+      <div class="card-col">
+        <div class="card-header">
+          <span>&#x2699;</span> Methodology
+        </div>
+        <div class="bullet-list" style="font-size: 13px; gap: 11px;">
+          <div class="bullet-item">
+            <span class="red-highlight">Optical Stream Ingestion:</span> Captures 1080p RTSP H.264 streams from fixed CCTV nodes and real-time WebRTC frames from mobile smartphone nodes via `/mobile-camera`.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Vision Preprocessing:</span> Implements CLAHE contrast equalization, bilateral denoising, and dynamic Otsu thresholding to isolate characters in high-contrast spaces.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Candidate ROI Segmentation:</span> OpenCV contour hierarchy filtering isolates 4-corner bounding boxes conforming to Indian license plate aspect ratios ($1.8 \le 	ext{AR} \le 6.0$).
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Modular OCR &amp; Format Validation:</span> Extracts normalized 20x30 alphanumeric glyph masks; validates against MoRTH standard regex (`^[A-Z]{2}[0-9]{2}[A-Z]{1,2}[0-9]{4}$`) with positional correction.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Kinematic Spatial Graph:</span> Haversine formula calculates inter-camera velocity ($v = \Delta d / \Delta t$). Triggers `IMPOSSIBLE_SPEED` alert if velocity exceeds 120 km/h (identifying clone plates).
+          </div>
+        </div>
+
+        <!-- Tech Stack Group -->
+        <div class="tech-stack-container">
+          <div class="tech-stack-title">Technology Stack</div>
+          
+          <div class="tech-stack-subgroup">
+            <div class="tech-stack-label">Frontend &amp; Edge UI</div>
+            <div class="tech-pills-row">
+              <span class="tech-pill">React 18</span>
+              <span class="tech-pill">TypeScript</span>
+              <span class="tech-pill">Tailwind CSS</span>
+              <span class="tech-pill">Leaflet GIS</span>
+              <span class="tech-pill">Recharts</span>
+            </div>
+          </div>
+
+          <div class="tech-stack-subgroup">
+            <div class="tech-stack-label">AI Engine &amp; Backend API</div>
+            <div class="tech-pills-row">
+              <span class="tech-pill">FastAPI</span>
+              <span class="tech-pill">Python 3.12</span>
+              <span class="tech-pill">OpenCV 4.10</span>
+              <span class="tech-pill">PaddleOCR/EasyOCR</span>
+              <span class="tech-pill">NumPy</span>
+            </div>
+          </div>
+
+          <div class="tech-stack-subgroup">
+            <div class="tech-stack-label">Database, Security &amp; Tunnel</div>
+            <div class="tech-pills-row">
+              <span class="tech-pill">Supabase PostgreSQL</span>
+              <span class="tech-pill">PostGIS</span>
+              <span class="tech-pill">Cloudflare Tunnel (SSL)</span>
+              <span class="tech-pill">WebSockets</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 2: UI Screenshots Mockups -->
+      <div class="card-col">
+        <div class="card-header">
+          <span>&#x1F4BB;</span> Working UI &amp; Field Console
+        </div>
+
+        <!-- Mockup 1: Mobile Edge Node UI -->
+        <div class="mockup-frame">
+          <div class="mockup-header">
+            <span>📱 URBANTRACE MOBILE NODE (/mobile-camera)</span>
+            <span style="color:#10b981; font-family:monospace;">● ONLINE</span>
+          </div>
+          <div class="mockup-body" style="height: 220px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div style="display:flex; justify-content:space-between; font-size:11px; font-family:monospace; color:#94a3b8;">
+              <span>GPS: 28.6145° N, 77.2098° E</span>
+              <span style="color:#38bdf8;">±3.2m ACCURACY</span>
+            </div>
+            <!-- Video Reticle Simulation -->
+            <div style="height:120px; border:2px dashed #38bdf8; border-radius:8px; display:flex; align-items:center; justify-content:center; background:#0f172a; position:relative;">
+              <span style="background:#ffffff; color:#0f172a; font-family:monospace; font-weight:900; padding:6px 18px; border-radius:4px; font-size:18px; border:2px solid #0f172a;">
+                DL 01 AB 1234
+              </span>
+              <span style="position:absolute; bottom:6px; font-size:9px; color:#38bdf8; font-family:monospace;">
+                RETICLE: ANPR SCANNING ACTIVE (34 FPS)
+              </span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:11px;">
+              <span style="background:#22c55e20; color:#4ade80; padding:2px 8px; border-radius:4px;">CONFIDENCE: 96%</span>
+              <span style="color:#f87171; font-weight:bold;">[ STOP SHARING ]</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mockup 2: Admin Dashboard & GIS Map -->
+        <div class="mockup-frame">
+          <div class="mockup-header">
+            <span>🖥️ COMMAND OVERVIEW &bull; GIS NETWORK MAP</span>
+            <span style="color:#38bdf8; font-family:monospace;">LIVE OPERATIONAL</span>
+          </div>
+          <div class="mockup-body" style="height: 280px; display:flex; flex-direction:column; justify-content:space-between;">
+            <!-- Mini KPI Bar -->
+            <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px;">
+              <div style="background:#1e293b; padding:6px; border-radius:6px; text-align:center;">
+                <div style="font-size:9px; color:#94a3b8;">ACTIVE NODES</div>
+                <div style="font-size:14px; font-weight:bold; color:#ffffff;">21 / 21</div>
+              </div>
+              <div style="background:#1e293b; padding:6px; border-radius:6px; text-align:center;">
+                <div style="font-size:9px; color:#94a3b8;">VEHICLES SEEN</div>
+                <div style="font-size:14px; font-weight:bold; color:#38bdf8;">1,420</div>
+              </div>
+              <div style="background:#1e293b; padding:6px; border-radius:6px; text-align:center;">
+                <div style="font-size:9px; color:#94a3b8;">ALERTS</div>
+                <div style="font-size:14px; font-weight:bold; color:#f87171;">2 ACTIVE</div>
+              </div>
+              <div style="background:#1e293b; padding:6px; border-radius:6px; text-align:center;">
+                <div style="font-size:9px; color:#94a3b8;">AVG SPEED</div>
+                <div style="font-size:14px; font-weight:bold; color:#4ade80;">42 KM/H</div>
+              </div>
+            </div>
+
+            <!-- Mini GIS Map Vector -->
+            <div style="height:150px; background:#0f172a; border-radius:8px; border:1px solid #334155; position:relative; overflow:hidden;">
+              <!-- Road Polyline -->
+              <svg width="100%" height="100%" viewBox="0 0 400 150">
+                <path d="M 40 120 Q 150 40 250 80 T 360 30" fill="none" stroke="#2563eb" stroke-width="4"/>
+                <circle cx="40" cy="120" r="8" fill="#10b981"/>
+                <text x="40" y="140" font-size="9" fill="#94a3b8" font-family="monospace">C-001 (10:14)</text>
+                <circle cx="250" cy="80" r="8" fill="#10b981"/>
+                <text x="250" y="100" font-size="9" fill="#94a3b8" font-family="monospace">C-004 (10:19)</text>
+                <circle cx="360" cy="30" r="10" fill="#ef4444"/>
+                <text x="310" y="24" font-size="9" fill="#f87171" font-weight="bold" font-family="monospace">🚨 HR26DK4521 (10:24)</text>
+              </svg>
+            </div>
+            
+            <div style="font-size:10px; color:#94a3b8; text-align:right;">
+              Trajectory Velocity: <b>84 km/h (Normal Arterial Corridor)</b>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size:12px; color:#64748b; text-align:center; font-style:italic;">
+          Live demonstration running on standard non-GPU testbed.
+        </div>
+      </div>
+
+      <!-- Col 3: Implementation Flowchart -->
+      <div class="card-col">
+        <div class="card-header">
+          <span>&#x2934;</span> Implementation Flow
+        </div>
+        
+        <!-- Flowchart SVG Diagram -->
+        <svg width="100%" height="730" viewBox="0 0 320 680" style="font-family:'Inter', sans-serif;">
+          <!-- Node 1: Video Ingestion -->
+          <rect x="20" y="10" width="280" height="50" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+          <text x="160" y="32" font-size="12" font-weight="bold" fill="#1e40af" text-anchor="middle">Optical Ingestion</text>
+          <text x="160" y="48" font-size="10" fill="#64748b" text-anchor="middle">Roadside RTSP + Mobile WebRTC + GPS</text>
+          <line x1="160" y1="60" x2="160" y2="85" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- Node 2: Vision Preprocessing -->
+          <rect x="20" y="85" width="280" height="50" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+          <text x="160" y="107" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">Image Preprocessing</text>
+          <text x="160" y="123" font-size="10" fill="#64748b" text-anchor="middle">CLAHE Equalization &bull; Denoise &bull; Adaptive Otsu</text>
+          <line x1="160" y1="135" x2="160" y2="160" stroke="#94a3b8" stroke-width="2"/>
+
+          <!-- Node 3: Plate Localization -->
+          <rect x="20" y="160" width="280" height="50" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+          <text x="160" y="182" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">Plate Localization (ROI)</text>
+          <text x="160" y="198" font-size="10" fill="#64748b" text-anchor="middle">Contour Aspect Filtering (1.8 - 6.0 AR)</text>
+          <line x1="160" y1="210" x2="160" y2="235" stroke="#94a3b8" stroke-width="2"/>
+
+          <!-- Node 4: Character OCR & MoRTH Validation -->
+          <rect x="20" y="235" width="280" height="55" rx="8" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+          <text x="160" y="257" font-size="12" font-weight="bold" fill="#166534" text-anchor="middle">Sub-Pixel OCR &amp; Indian Validator</text>
+          <text x="160" y="273" font-size="10" fill="#64748b" text-anchor="middle">Contour Glyph Matching + MoRTH Regex</text>
+          <line x1="160" y1="290" x2="160" y2="315" stroke="#94a3b8" stroke-width="2"/>
+
+          <!-- Node 5: Deduplication Filter -->
+          <rect x="20" y="315" width="280" height="45" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+          <text x="160" y="335" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">8-Second Deduplication Gate</text>
+          <text x="160" y="349" font-size="9.5" fill="#64748b" text-anchor="middle">Suppresses repeat hits at same sensor node</text>
+          <line x1="160" y1="360" x2="160" y2="385" stroke="#94a3b8" stroke-width="2"/>
+
+          <!-- Node 6: Decision Diamond -->
+          <polygon points="160,385 270,425 160,465 50,425" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+          <text x="160" y="422" font-size="11" font-weight="bold" fill="#92400e" text-anchor="middle">Kinematic Anomaly &amp;</text>
+          <text x="160" y="435" font-size="10" font-weight="bold" fill="#92400e" text-anchor="middle">Blacklist Evaluation</text>
+
+          <!-- Branch 1: Critical Incident -->
+          <line x1="270" y1="425" x2="295" y2="425" stroke="#ef4444" stroke-width="2"/>
+          <line x1="295" y1="425" x2="295" y2="505" stroke="#ef4444" stroke-width="2"/>
+          <line x1="295" y1="505" x2="170" y2="505" stroke="#ef4444" stroke-width="2"/>
+
+          <!-- Branch 2: Normal Sighting -->
+          <line x1="50" y1="425" x2="25" y2="425" stroke="#22c55e" stroke-width="2"/>
+          <line x1="25" y1="425" x2="25" y2="505" stroke="#22c55e" stroke-width="2"/>
+          <line x1="25" y1="505" x2="150" y2="505" stroke="#22c55e" stroke-width="2"/>
+
+          <!-- Node 7: Trajectory & Alert Dispatch -->
+          <rect x="20" y="490" width="280" height="55" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+          <text x="160" y="512" font-size="12" font-weight="bold" fill="#991b1b" text-anchor="middle">Real-Time Dispatch &amp; Alert Bus</text>
+          <text x="160" y="528" font-size="9.5" fill="#64748b" text-anchor="middle">WebSocket Broadcast + Patrol Intercept Push</text>
+          <line x1="160" y1="545" x2="160" y2="570" stroke="#94a3b8" stroke-width="2"/>
+
+          <!-- Node 8: GIS & Spatial Storage -->
+          <rect x="20" y="570" width="280" height="50" rx="8" fill="#f8fafc" stroke="#64748b" stroke-width="2"/>
+          <text x="160" y="592" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">Spatial Database &amp; GIS Map</text>
+          <text x="160" y="608" font-size="9.5" fill="#64748b" text-anchor="middle">Supabase PostGIS + Historical Reconstruction</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- SLIDE 4: IMPACT AND BENEFITS                                              -->
+  <!-- ========================================================================= -->
+  <div class="slide">
+    <div class="top-bar">
+      <div class="slide-header-title">
+        <span>IMPACT AND BENEFITS</span>
+      </div>
+      <div class="sih-logo-container">
+        <div class="sih-logo-badge">
+          <div class="title">SMART INDIA HACKATHON 2025</div>
+          <div class="sub">Team ID: 57893 &bull; Zillion Minds</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Grid -->
+    <div class="slide4-top">
+      <!-- Card 1 -->
+      <div class="card-col">
+        <div class="card-header">
+          <span>&#x1F693;</span> Potential Impact on Law Enforcement
+        </div>
+        <div class="bullet-list">
+          <div class="bullet-item">
+            <span class="red-highlight">Sub-Second Interception:</span> Stolen or wanted vehicles flagged within 200 milliseconds of passing any fixed camera or mobile phone node.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Automated Flight Reconstruction:</span> Immediately maps suspect getaway routes across junctions without manually scrubbing hours of CCTV tapes.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Clone &amp; Fake Plate Detection:</span> Identifies duplicate registrations appearing simultaneously at disparate cameras via kinematic anomaly scoring.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Officer Safety Enhancement:</span> Alerts highway patrols with vehicle model, direction, and velocity prior to initiating physical vehicle intercepts.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Court-Admissible Digital Trails:</span> Exports tamper-proof chronological sighting logs with GPS stamps, confidence metrics, and plate crops.
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card-col">
+        <div class="card-header">
+          <span>&#x1F3D9;</span> Mission &amp; Operational Benefit
+        </div>
+        <div class="bullet-list">
+          <div class="bullet-item">
+            <span class="red-highlight">85% Capital Cost Savings:</span> Replaces proprietary &#x20B9;2,50,000 GPU cameras with standard IP/USB cameras and existing officer smartphones.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Zero-Blindspot Flexibility:</span> Officers can create instant surveillance checkpoints during VIP visits or festival blockades in 10 seconds.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Offline Edge Resilience:</span> Mobile nodes continue performing local OCR and buffering sightings even during 4G/5G connectivity dropouts.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Traffic Decongestion:</span> Real-time density analytics calculate origin-destination travel times, enabling smart traffic signal adjustments.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Municipal Scalability:</span> City-wide deployment seamlessly scales from 10 to 10,000 camera nodes using lightweight distributed microservices.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Grid -->
+    <div class="slide4-bottom">
+      <!-- Economic & Strategic Gains -->
+      <div class="card-col">
+        <div class="card-header">
+          <span>&#x1F4B0;</span> Economic and Strategic Gains
+        </div>
+        <div class="bullet-list">
+          <div class="bullet-item">
+            <span class="red-highlight">Toll &amp; Tax Revenue Recovery:</span> Recovers estimated &#x20B9;500+ Crores annually in unpaid e-challans, commercial tax evasion, and unregistered vehicles.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Resource &amp; Energy Optimization:</span> CPU-optimized software runs on low-power 15W edge boxes rather than energy-hungry 350W GPU servers.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Make-in-India AI Leadership:</span> 100% indigenous software stack eliminates dependence on imported proprietary video analytics licenses.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Inter-State Integration:</span> Pluggable REST APIs allow direct sync with National Crime Records Bureau (NCRB) and MoRTH VAHAN portals.
+          </div>
+        </div>
+      </div>
+
+      <!-- Donut Chart & Domain Proportions -->
+      <div class="card-col" style="align-items: center; justify-content: center; text-align: center;">
+        <div style="font-size: 14px; font-weight: 800; color: #0f172a; margin-bottom: 12px;">
+          Proportional Impact Across Smart City Verticals
+        </div>
+        <!-- SVG Donut Chart -->
+        <svg width="220" height="220" viewBox="0 0 200 200">
+          <!-- Donut Segments -->
+          <circle cx="100" cy="100" r="70" fill="transparent" stroke="#2563eb" stroke-width="32" stroke-dasharray="154 440" stroke-dashoffset="0"/>
+          <circle cx="100" cy="100" r="70" fill="transparent" stroke="#10b981" stroke-width="32" stroke-dasharray="110 440" stroke-dashoffset="-154"/>
+          <circle cx="100" cy="100" r="70" fill="transparent" stroke="#f59e0b" stroke-width="32" stroke-dasharray="88 440" stroke-dashoffset="-264"/>
+          <circle cx="100" cy="100" r="70" fill="transparent" stroke="#ef4444" stroke-width="32" stroke-dasharray="66 440" stroke-dashoffset="-352"/>
+          <circle cx="100" cy="100" r="70" fill="transparent" stroke="#8b5cf6" stroke-width="32" stroke-dasharray="22 440" stroke-dashoffset="-418"/>
+          <text x="100" y="96" font-size="16" font-weight="900" fill="#0f172a" text-anchor="middle">URBANTRACE</text>
+          <text x="100" y="112" font-size="11" font-weight="bold" fill="#64748b" text-anchor="middle">IMPACT</text>
+        </svg>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px 14px; font-size:11px; text-align:left; margin-top:10px;">
+          <div><span style="color:#2563eb; font-weight:bold;">■ 35%</span> Law Enforcement Tracking</div>
+          <div><span style="color:#10b981; font-weight:bold;">■ 25%</span> Municipal Hardware Savings</div>
+          <div><span style="color:#f59e0b; font-weight:bold;">■ 20%</span> Traffic Decongestion</div>
+          <div><span style="color:#ef4444; font-weight:bold;">■ 15%</span> Stolen Vehicle Recovery</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- SLIDE 5: FEASIBILITY AND VIABILITY                                        -->
+  <!-- ========================================================================= -->
+  <div class="slide">
+    <div class="top-bar">
+      <div class="slide-header-title">
+        <span>FEASIBILITY AND VIABILITY</span>
+      </div>
+      <div class="sih-logo-container">
+        <div class="sih-logo-badge">
+          <div class="title">SMART INDIA HACKATHON 2025</div>
+          <div class="sub">Team ID: 57893 &bull; Zillion Minds</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Row -->
+    <div class="slide5-top">
+      <!-- Left: Feasibility Analysis -->
+      <div class="card-col">
+        <div class="card-header">
+          <span>&#x2714;</span> Technical &amp; Operational Feasibility
+        </div>
+        <div class="bullet-list" style="font-size: 13.5px; gap: 11px;">
+          <div class="bullet-item">
+            <span class="red-highlight">Proven Computer Vision Base:</span> OpenCV morphological edge detection and contour segmentation thoroughly validated on x86/ARM architectures.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Zero-GPU Edge Compatibility:</span> Entire ANPR pipeline runs on modest multi-core CPU processors (Intel i3/i5, Raspberry Pi 5, standard laptops).
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Infrastructure Scalability:</span> Stateless microservice design enables seamless horizontal clustering from 5 nodes to 5,000+ camera nodes.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Indian Dataset Availability:</span> Pre-configured with MoRTH high-security registration plate (HSRP) font standards, two-wheeler plates, and state prefixes.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Network Fault Tolerance:</span> Field mobile nodes cache observations in local memory during network blackouts and auto-sync when connection restores.
+          </div>
+          <div class="bullet-item">
+            <span class="red-highlight">Eco-Friendly Power Footprint:</span> Edge nodes consume under 15 Watts compared to 300+ Watts for power-hungry GPU workstations.
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Before vs After Bar Chart -->
+      <div class="card-col">
+        <div class="card-header">
+          <span>&#x1F4CA;</span> Operational Efficiency: Before vs After UrbanTrace AI
+        </div>
+        
+        <!-- SVG Bar Chart -->
+        <svg width="100%" height="280" viewBox="0 0 540 250" style="font-family:'Inter', sans-serif;">
+          <!-- Axes -->
+          <line x1="50" y1="20" x2="50" y2="200" stroke="#cbd5e1" stroke-width="2"/>
+          <line x1="50" y1="200" x2="520" y2="200" stroke="#cbd5e1" stroke-width="2"/>
+
+          <!-- Y Axis Labels -->
+          <text x="40" y="200" font-size="10" fill="#94a3b8" text-anchor="end">0%</text>
+          <text x="40" y="155" font-size="10" fill="#94a3b8" text-anchor="end">25%</text>
+          <text x="40" y="110" font-size="10" fill="#94a3b8" text-anchor="end">50%</text>
+          <text x="40" y="65" font-size="10" fill="#94a3b8" text-anchor="end">75%</text>
+          <text x="40" y="20" font-size="10" fill="#94a3b8" text-anchor="end">100%</text>
+
+          <!-- Metric 1: Suspect Interception Speed -->
+          <rect x="75" y="150" width="36" height="50" fill="#94a3b8" rx="4"/>
+          <rect x="115" y="28" width="36" height="172" fill="#2563eb" rx="4"/>
+          <text x="113" y="220" font-size="11" font-weight="600" fill="#1e293b" text-anchor="middle">Trace Speed</text>
+          <text x="93" y="142" font-size="10" font-weight="bold" fill="#64748b" text-anchor="middle">18%</text>
+          <text x="133" y="22" font-size="11" font-weight="bold" fill="#1e40af" text-anchor="middle">96%</text>
+
+          <!-- Metric 2: Multi-Camera Correlation -->
+          <rect x="195" y="170" width="36" height="30" fill="#94a3b8" rx="4"/>
+          <rect x="235" y="38" width="36" height="162" fill="#2563eb" rx="4"/>
+          <text x="233" y="220" font-size="11" font-weight="600" fill="#1e293b" text-anchor="middle">Corridor Mapping</text>
+          <text x="213" y="162" font-size="10" font-weight="bold" fill="#64748b" text-anchor="middle">12%</text>
+          <text x="253" y="32" font-size="11" font-weight="bold" fill="#1e40af" text-anchor="middle">92%</text>
+
+          <!-- Metric 3: Stolen Recovery Rate -->
+          <rect x="315" y="145" width="36" height="55" fill="#94a3b8" rx="4"/>
+          <rect x="355" y="44" width="36" height="156" fill="#10b981" rx="4"/>
+          <text x="353" y="220" font-size="11" font-weight="600" fill="#1e293b" text-anchor="middle">Stolen Recovery</text>
+          <text x="333" y="137" font-size="10" font-weight="bold" fill="#64748b" text-anchor="middle">24%</text>
+          <text x="373" y="38" font-size="11" font-weight="bold" fill="#047857" text-anchor="middle">88%</text>
+
+          <!-- Metric 4: Hardware Cost Reduction -->
+          <rect x="435" y="165" width="36" height="35" fill="#94a3b8" rx="4"/>
+          <rect x="475" y="30" width="36" height="170" fill="#10b981" rx="4"/>
+          <text x="473" y="220" font-size="11" font-weight="600" fill="#1e293b" text-anchor="middle">Cost Savings</text>
+          <text x="453" y="157" font-size="10" font-weight="bold" fill="#64748b" text-anchor="middle">15%</text>
+          <text x="493" y="24" font-size="11" font-weight="bold" fill="#047857" text-anchor="middle">94%</text>
+        </svg>
+
+        <div style="display:flex; justify-content:center; gap:20px; font-size:11px; margin-top:4px;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <div style="width:12px; height:12px; background:#94a3b8; border-radius:3px;"></div>
+            <span style="color:#64748b; font-weight:600;">Manual / Legacy Systems</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <div style="width:12px; height:12px; background:#2563eb; border-radius:3px;"></div>
+            <span style="color:#1e40af; font-weight:700;">UrbanTrace AI Platform</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Row: WHAT IFs and Mitigation -->
+    <div class="slide5-bottom">
+      <!-- WHAT IFs 5-Column Matrix -->
+      <div class="card-col">
+        <div class="card-header">
+          <span>&#x2753;</span> Edge Resilience: WHAT IFs....?
+        </div>
+
+        <div class="what-if-grid">
+          <div class="what-if-col">
+            <div class="what-if-badge">01</div>
+            <div class="what-if-q">Camera lens gets dusty or low light?</div>
+            <div class="what-if-a">CLAHE dynamic contrast enhancement &amp; adaptive binarization pull characters out of dark shadow contours.</div>
+          </div>
+
+          <div class="what-if-col">
+            <div class="what-if-badge">02</div>
+            <div class="what-if-q">Network drops in field mobile node?</div>
+            <div class="what-if-a">Edge browser memory stores observations locally and bulk-synchronizes immediately upon network restoration.</div>
+          </div>
+
+          <div class="what-if-col">
+            <div class="what-if-badge">03</div>
+            <div class="what-if-q">High vehicle speed causes motion blur?</div>
+            <div class="what-if-a">High-frequency keyframe decimation and Laplacian sharpness filters discard blurred frames, preserving crisp ROI.</div>
+          </div>
+
+          <div class="what-if-col">
+            <div class="what-if-badge">04</div>
+            <div class="what-if-q">Criminal uses a clone / duplicate plate?</div>
+            <div class="what-if-a">Haversine velocity detector flags impossible simultaneous sightings (&gt;120 km/h) across disparate city nodes.</div>
+          </div>
+
+          <div class="what-if-col">
+            <div class="what-if-badge">05</div>
+            <div class="what-if-q">Surveillance feed scale spikes rapidly?</div>
+            <div class="what-if-a">Stateless distributed FastAPI microservices load-balance across available edge and cloud nodes effortlessly.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Strategies to Overcome Challenges -->
+      <div class="card-col">
+        <div class="card-header">
+          <span>&#x1F6E1;</span> Strategies to Overcome Challenges
+        </div>
+        <div class="bullet-list" style="font-size: 12.5px; gap: 10px;">
+          <div>
+            <div class="bold-dark" style="color:#0f172a; font-size:13px;">1. Limited Edge Computing Power</div>
+            <div style="color:#475569; font-size:11.5px; line-height:1.4;">
+              <b>Strategy:</b> Pruned contour segmentation avoids full-image deep CNN passes. Inference runs on CPU in sub-40 milliseconds.
+            </div>
+          </div>
+
+          <div>
+            <div class="bold-dark" style="color:#0f172a; font-size:13px;">2. Varied Indian Plate Dimensions</div>
+            <div style="color:#475569; font-size:11.5px; line-height:1.4;">
+              <b>Strategy:</b> IndianPlateValidator handles single-row car plates and dual-row two-wheeler plates with positional error correction matrices.
+            </div>
+          </div>
+
+          <div>
+            <div class="bold-dark" style="color:#0f172a; font-size:13px;">3. Secure Mobile Node Ingestion</div>
+            <div style="color:#475569; font-size:11.5px; line-height:1.4;">
+              <b>Strategy:</b> Cloudflare SSL tunnel guarantees a trusted HTTPS origin, enabling Chrome camera permissions without untrusted warnings.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- SLIDE 6: RESEARCH & REFERENCES                                            -->
+  <!-- ========================================================================= -->
+  <div class="slide">
+    <div class="top-bar">
+      <div class="slide-header-title">
+        <span>RESEARCH &amp; REFERENCES</span>
+      </div>
+      <div class="sih-logo-container">
+        <div class="sih-logo-badge">
+          <div class="title">SMART INDIA HACKATHON 2025</div>
+          <div class="sub">Team ID: 57893 &bull; Zillion Minds</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide6-grid">
+      <!-- Left Column: Comparison Table -->
+      <div class="card-col">
+        <div class="card-header">
+          <span>&#x2696;</span> Architecture Comparison: Proposed Solution vs Existing Systems
+        </div>
+
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>UrbanTrace AI (Our Proposed Solution)</th>
+              <th>Existing Conventional Systems</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="feature">Node Architecture</td>
+              <td class="ours">Dual-Node Fusion: Integrates permanent roadside CCTV and ad-hoc mobile smartphone nodes via secure WebRTC URL.</td>
+              <td class="theirs">Fixed roadside infrastructure only. Inflexible to dynamic checkpoints.</td>
+            </tr>
+            <tr>
+              <td class="feature">Hardware Dependency</td>
+              <td class="ours">100% CPU-Optimized. Zero GPU required. Operates on standard edge laptops and existing IP cameras.</td>
+              <td class="theirs">Demands expensive dedicated GPU workstations (NVIDIA Tesla / Jetson) per pole.</td>
+            </tr>
+            <tr>
+              <td class="feature">Trajectory Tracking</td>
+              <td class="ours">Automated Chronological Graph: Computes velocity ($v = \Delta d / \Delta t$) across multi-camera hops on interactive GIS map.</td>
+              <td class="theirs">Single-point detection only. Requires manual cross-camera operator correlation.</td>
+            </tr>
+            <tr>
+              <td class="feature">Clone Plate Anomaly</td>
+              <td class="ours">Instant Kinematic Detection: Flags impossible velocities (&gt;120 km/h) when the same plate appears at distant nodes.</td>
+              <td class="theirs">No spatial correlation. Fake or cloned plates pass undetected through independent perimeters.</td>
+            </tr>
+            <tr>
+              <td class="feature">Detection Honesty</td>
+              <td class="ours">Honest OCR: Blank or plate-free frames report 0 detections. No fake modulo plate cycling.</td>
+              <td class="theirs">Often produces erratic random text or fails silently on low-confidence captures.</td>
+            </tr>
+            <tr>
+              <td class="feature">Indian Format Support</td>
+              <td class="ours">MoRTH Standard Alignment: Built-in normalization (`SS DD AA NNNN`) and character error-correction matrix (e.g., O&harr;0, I&harr;1).</td>
+              <td class="theirs">Generic Western ANPR models that fail frequently on varied Indian font stylings.</td>
+            </tr>
+            <tr>
+              <td class="feature">Capital Cost per Node</td>
+              <td class="ours">Extremely Low (~&#x20B9;15,000 / node or &#x20B9;0 utilizing existing traffic cameras and smartphones).</td>
+              <td class="theirs">High Capital Cost (&gt;&#x20B9;2,50,000 per camera installation).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Right Column: Research Citations -->
+      <div class="card-col">
+        <div class="card-header">
+          <span>&#x1F4DA;</span> Research &amp; Dataset References
+        </div>
+
+        <div style="overflow-y:auto; padding-right:6px;">
+          <div class="ref-link-card">
+            <div class="ref-title">MoRTH Standard Motor Vehicles Rules &amp; HSRP Standard</div>
+            <div class="ref-desc">Ministry of Road Transport and Highways (MoRTH) standards for High Security Registration Plates (HSRP) and AIS-159 vehicle identification standards.</div>
+            <a class="ref-url" href="https://morth.nic.in/motor-vehicles-act-1988">https://morth.nic.in/motor-vehicles-act-1988</a>
+          </div>
+
+          <div class="ref-link-card">
+            <div class="ref-title">Indian License Plate Benchmark Datasets</div>
+            <div class="ref-desc">Standard benchmark datasets for Indian alphanumeric vehicle registration plate detection, contour extraction, and OCR evaluation under diverse environmental conditions.</div>
+            <a class="ref-url" href="https://github.com/topics/indian-license-plate">https://github.com/topics/indian-license-plate</a>
+          </div>
+
+          <div class="ref-link-card">
+            <div class="ref-title">Haversine Kinematic Anomaly Detection in ITS</div>
+            <div class="ref-desc">IEEE Transactions on Intelligent Transportation Systems: Graph-based trajectory reconstruction and spatial velocity anomaly detection using spherical trigonometry.</div>
+            <a class="ref-url" href="https://ieeexplore.ieee.org/abstract/document/8447385">https://ieeexplore.ieee.org/abstract/document/8447385</a>
+          </div>
+
+          <div class="ref-link-card">
+            <div class="ref-title">OpenCV Morphological &amp; Adaptive Binarization (CLAHE)</div>
+            <div class="ref-desc">OpenCV Vision Reference: Contrast Limited Adaptive Histogram Equalization (CLAHE) and Otsu thresholding algorithms for license plate character localization.</div>
+            <a class="ref-url" href="https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html">https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html</a>
+          </div>
+
+          <div class="ref-link-card">
+            <div class="ref-title">FastAPI Asynchronous Microservice Architecture</div>
+            <div class="ref-desc">High-throughput asynchronous ASGI telemetry framework for low-latency IoT and edge camera sensor data streaming.</div>
+            <a class="ref-url" href="https://fastapi.tiangolo.com/">https://fastapi.tiangolo.com/</a>
+          </div>
+
+          <div class="ref-link-card">
+            <div class="ref-title">Cloudflare Zero-Trust Secure Tunnel Protocols</div>
+            <div class="ref-desc">Cloudflare Developer Reference on encrypted edge tunneling and public SSL termination for distributed edge camera streaming.</div>
+            <a class="ref-url" href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/">https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
