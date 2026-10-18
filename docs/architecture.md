@@ -1,6 +1,6 @@
 # NAYAN — System Architecture & Technical Specifications
 
-NAYAN is a high-performance, local-first Automatic Number Plate Recognition (ANPR) and city-wide vehicle movement intelligence platform designed for smart city command centers and SIH (Smart India Hackathon) prototypes.
+NAYAN is a high-performance, local-first Automatic Number Plate Recognition (ANPR) and city-wide vehicle movement intelligence platform designed for smart city command centers and modern intelligent transportation systems (ITS).
 
 ---
 
@@ -102,7 +102,7 @@ $$v = \frac{d}{\Delta t / 3600}\text{ (km/h)}$$
 
 ## 4. CCTV & RTSP Ingestion Architecture
 
-While the SIH demonstration utilizes browser webcams (`navigator.mediaDevices.getUserMedia`) for portability, the platform includes a production-ready RTSP streaming architecture:
+While the client demonstration module utilizes browser webcams (`navigator.mediaDevices.getUserMedia`) for lightweight local testing and verification, the platform includes a production-ready RTSP streaming architecture:
 
 ```text
 [ Physical RTSP / ONVIF Camera ]

@@ -1,5 +1,5 @@
 # NAYAN — Networked AI for Yield & ANPR Navigation
-### Smart India Hackathon 2026 | Problem Statement: Automated Traffic Management & ANPR Surveillance | Team ByteBrains
+### Enterprise-Grade Intelligent Traffic Management, Optical ANPR & City-Wide Surveillance Platform
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=flat-square&logo=react)](https://react.dev)
