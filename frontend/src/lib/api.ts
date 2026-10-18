@@ -1,7 +1,8 @@
 import { 
   Camera, CameraSummary, Vehicle, VehicleProfile, Observation, ANPRProcessResponse, 
   TrajectoryData, Alert, BlacklistRecord, TrafficSummary, 
-  HeatmapPoint, ODRoute, SystemHealth 
+  HeatmapPoint, ODRoute, SystemHealth,
+  InvestigationRequest, InvestigationResult
 } from '../types';
 
 // Empty string default allows Vite dev proxy to route /api seamlessly across LAN without HTTPS mixed content issues
@@ -208,4 +209,61 @@ export const api = {
   loadDemoData: () => fetchJson<{ success: boolean; message: string; demo_vehicles_count: number }>('/api/demo/load', { method: 'POST' }),
   clearDemoData: () => fetchJson<{ success: boolean; message: string }>('/api/demo/clear', { method: 'POST' }),
   getDemoStatus: () => fetchJson<{ is_demo_loaded: boolean; demo_vehicles: number; real_vehicles: number }>('/api/demo/status'),
+
+  // Vehicle Investigation Intelligence (TinyFish)
+  startInvestigation: (req: InvestigationRequest) =>
+    fetchJson<InvestigationResult>('/api/investigation/start', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req),
+    }),
+
+  getInvestigation: (id: string) =>
+    fetchJson<InvestigationResult>(`/api/investigation/${encodeURIComponent(id)}`),
+
+  getInvestigationHistory: (plate?: string) => {
+    const params = new URLSearchParams();
+    if (plate) params.append('plate', plate);
+    return fetchJson<InvestigationResult[]>(`/api/investigation/history?${params.toString()}`);
+  },
+
+  streamInvestigation: (
+    id: string,
+    onUpdate: (data: InvestigationResult) => void,
+    onComplete?: () => void,
+    onError?: (err: any) => void
+  ) => {
+    const sseUrl = `${API_BASE}/api/investigation/${encodeURIComponent(id)}/stream`;
+    const eventSource = new EventSource(sseUrl);
+
+    eventSource.onmessage = (event) => {
+      try {
+        if (!event.data) return;
+        const parsed = JSON.parse(event.data);
+        if (parsed.error) {
+          if (onError) onError(new Error(parsed.error));
+          eventSource.close();
+          return;
+        }
+        onUpdate(parsed as InvestigationResult);
+        if (parsed.status === 'COMPLETED' || parsed.status === 'FAILED') {
+          if (onComplete) onComplete();
+          eventSource.close();
+        }
+      } catch (err) {
+        console.error('Error parsing SSE event in streamInvestigation:', err);
+      }
+    };
+
+    eventSource.onerror = (err) => {
+      console.warn('Investigation SSE stream error/closed:', err);
+      if (onError) onError(err);
+      eventSource.close();
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  },
 };
+

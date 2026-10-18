@@ -7,7 +7,7 @@ from typing import List, Dict, Any, Optional
 from app.config import settings
 from app.tracking.trajectory_service import TrajectoryService
 
-logger = logging.getLogger("urbantrace.supabase")
+logger = logging.getLogger("nayan.supabase")
 
 def normalize_plate_str(plate: str) -> str:
     """Normalize license plate to uppercase alphanumeric string without spaces or hyphens."""

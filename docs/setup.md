@@ -1,6 +1,6 @@
-# UrbanTrace AI — Setup & Demonstration Guide
+# NAYAN — Setup & Demonstration Guide
 
-This guide walks through configuring and launching UrbanTrace AI locally on a Windows machine.
+This guide walks through configuring and launching NAYAN locally on a Windows machine.
 
 ---
 
@@ -18,7 +18,7 @@ Ensure you have installed:
 Open PowerShell and navigate to the backend directory:
 
 ```powershell
-cd C:\Users\Akshay\.gemini\antigravity\scratch\urbantrace-ai\backend
+cd backend
 
 # 1. Create Python virtual environment
 python -m venv .venv
@@ -46,7 +46,7 @@ Interactive Swagger API documentation is available at `http://localhost:8000/doc
 Open a second PowerShell terminal:
 
 ```powershell
-cd C:\Users\Akshay\.gemini\antigravity\scratch\urbantrace-ai\frontend
+cd frontend
 
 # 1. Install dependencies
 npm install
@@ -61,7 +61,7 @@ Vite will serve the frontend at `http://localhost:5173`.
 
 ## 4. Supabase Database Configuration
 
-UrbanTrace AI works out of the box with an automated local deterministic data provider. When you are ready to link a live cloud Supabase database:
+NAYAN works out of the box with an automated local deterministic data provider. When you are ready to link a live cloud Supabase database:
 
 1. Create a project at [supabase.com](https://supabase.com).
 2. Open the **SQL Editor** in your Supabase dashboard.

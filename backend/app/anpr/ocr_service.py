@@ -6,7 +6,7 @@ from typing import Tuple, Dict, Any, Optional
 import cv2
 import numpy as np
 
-logger = logging.getLogger("urbantrace.anpr")
+logger = logging.getLogger("nayan.anpr")
 
 class OCRService(abc.ABC):
     """Abstract interface for OCR engines."""

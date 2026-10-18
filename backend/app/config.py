@@ -13,6 +13,9 @@ class Settings(BaseSettings):
     CONFIDENCE_THRESHOLD: float = 0.60
     AUTO_SCAN_INTERVAL_SEC: int = 3
     PORT: int = 8000
+    TINYFISH_API_KEY: Optional[str] = "sk-tinyfish-cez8ymaEcdbfohq7AAAoo7JDz81BALvN"
+    TINYFISH_AGENT_URL: str = "https://agent.tinyfish.ai/v1/automation/run"
+    TINYFISH_TIMEOUT_SECONDS: int = 45
 
     class Config:
         env_file = ".env"

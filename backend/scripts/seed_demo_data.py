@@ -1,5 +1,5 @@
 """
-UrbanTrace AI — Demo Data Seed Script
+NAYAN — Demo Data Seed Script
 Populates Supabase (or local cache) with:
 - 20 Delhi CCTV Cameras
 - 200+ Vehicles
@@ -62,7 +62,7 @@ def generate_random_plate():
 
 def run_seed():
     print("=" * 60)
-    print("UrbanTrace AI - Seeding Demo Data")
+    print("NAYAN - Seeding Demo Data")
     print(f"Supabase Status: {'CONNECTED' if supabase_service.is_connected() else 'LOCAL / OFFLINE (DEMO STATE)'}")
     print("=" * 60)
 

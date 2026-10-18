@@ -12,10 +12,10 @@ export const SettingsPage: React.FC = () => {
   const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
 
   const handleSave = () => {
-    localStorage.setItem('urbantrace_ocr_engine', ocrEngine);
-    localStorage.setItem('urbantrace_confidence_threshold', String(confidenceThreshold));
-    localStorage.setItem('urbantrace_speed_threshold', String(speedThreshold));
-    localStorage.setItem('urbantrace_autoscan_interval', String(autoScanInterval));
+    localStorage.setItem('nayan_ocr_engine', ocrEngine);
+    localStorage.setItem('nayan_confidence_threshold', String(confidenceThreshold));
+    localStorage.setItem('nayan_speed_threshold', String(speedThreshold));
+    localStorage.setItem('nayan_autoscan_interval', String(autoScanInterval));
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 2500);
   };

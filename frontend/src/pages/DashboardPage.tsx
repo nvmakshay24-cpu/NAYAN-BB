@@ -335,384 +335,230 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   const mediumAlerts = alerts.filter(a => a.severity === 'MEDIUM' && a.status === 'ACTIVE');
 
   return (
-    <div className="space-y-3.5 pb-6 font-sans">
+    <div className="space-y-2.5 pb-4 font-sans">
       {/* ------------------------------------------------------------- */}
-      {/* 1. OPERATIONAL TELEMETRY KPI STRIP (4-Column Enterprise Strip) */}
+      {/* 1. HEADER (COMMAND OVERVIEW & SYNC)                           */}
+      {/* ------------------------------------------------------------- */}
+      <div className="flex items-center justify-between pb-0.5">
+        <div>
+          <h1 className="text-sm font-bold font-mono tracking-tight text-slate-900 uppercase">
+            COMMAND OVERVIEW
+          </h1>
+          <p className="text-[11px] text-slate-500 font-sans mt-0.5">
+            System-wide surveillance and ANPR telemetry
+          </p>
+        </div>
+        <button
+          onClick={loadData}
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-mono text-xs font-semibold shadow-2xs transition-colors cursor-pointer"
+        >
+          <RefreshCw className={`w-3 h-3 text-slate-500 ${loading ? 'animate-spin' : ''}`} />
+          <span>SYNC</span>
+        </button>
+      </div>
+
+      {/* ------------------------------------------------------------- */}
+      {/* 2. 4 METRIC KPI CARDS                                         */}
       {/* ------------------------------------------------------------- */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
-        {/* CARD 1: CAMERA SENSOR NETWORK */}
-        <div className="bg-white border border-slate-200 rounded p-3 shadow-2xs">
-          <div className="flex items-center justify-between text-slate-500 text-[10px] font-mono uppercase font-bold tracking-wider">
-            <span className="flex items-center gap-1.5 text-slate-700">
-              <CamIcon className="w-3.5 h-3.5 text-blue-600" />
-              CAMERA SENSOR GRID
-            </span>
-            <span className="px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 font-mono text-[9px] border border-slate-200">
-              ID: CAM-NET
+        {/* CARD 1: CAMERA NODES */}
+        <div className="bg-white border border-slate-200 rounded-md p-2.5 shadow-2xs flex flex-col justify-between">
+          <div className="flex items-center justify-between font-mono text-[10px] font-bold tracking-wider">
+            <span className="text-slate-500 uppercase">CAMERA NODES</span>
+            <span className="text-emerald-600 flex items-center gap-1 text-[10px]">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              {camSummary.online} ONLINE
             </span>
           </div>
-          <div className="mt-2 flex items-baseline justify-between">
-            <div className="text-2xl font-bold font-mono text-slate-900 tracking-tight">
-              {camSummary.total}
-              <span className="text-xs font-normal text-slate-400 font-sans ml-1">nodes</span>
-            </div>
-            <div className="text-right font-mono text-xs">
-              <span className="text-emerald-700 font-bold flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                {camSummary.online} ONLINE
-              </span>
-            </div>
+          <div className="mt-1 text-2xl font-bold font-mono text-slate-900 tracking-tight">
+            {camSummary.total}
           </div>
-          <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] font-mono text-slate-500">
-            <span>Offline: <b className="text-slate-700">{camSummary.offline}</b></span>
-            <span>Availability: <b className="text-emerald-700">{Math.round((camSummary.online / Math.max(1, camSummary.total)) * 100)}%</b></span>
+          <div className="text-right font-mono text-[10px] text-slate-400">
+            {camSummary.offline} offline
           </div>
         </div>
 
-        {/* CARD 2: 24H ANPR READ VOLUME */}
-        <div className="bg-white border border-slate-200 rounded p-3 shadow-2xs">
-          <div className="flex items-center justify-between text-slate-500 text-[10px] font-mono uppercase font-bold tracking-wider">
-            <span className="flex items-center gap-1.5 text-slate-700">
-              <Activity className="w-3.5 h-3.5 text-emerald-600" />
-              ANPR 24H READ VOLUME
-            </span>
-            <span className="text-[9px] font-mono text-emerald-700 font-bold flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> LIVE
-            </span>
+        {/* CARD 2: ANPR READS */}
+        <div className="bg-white border border-slate-200 rounded-md p-2.5 shadow-2xs flex flex-col justify-between">
+          <div className="flex items-center justify-between font-mono text-[10px] font-bold tracking-wider">
+            <span className="text-slate-500 uppercase">ANPR READS</span>
+            <span className="text-slate-400 font-normal text-[10px] uppercase">24H WINDOW</span>
           </div>
-          <div className="mt-2 flex items-baseline justify-between">
-            <div className="text-2xl font-bold font-mono text-slate-900 tracking-tight">
-              {summary ? summary.anpr_reads_today.toLocaleString() : recentDetections.length}
-            </div>
-            <div className="text-xs font-mono text-slate-600 font-medium">
-              ~{summary ? Math.max(1, Math.round(summary.anpr_reads_today / 60)) : 0} reads/min
-            </div>
+          <div className="mt-1 text-2xl font-bold font-mono text-slate-900 tracking-tight">
+            {summary ? summary.anpr_reads_today.toLocaleString() : recentDetections.length}
           </div>
-          <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] font-mono text-slate-500">
-            <span>Peak Interval: <b className="text-slate-700">{summary?.peak_hour || '09:00 - 10:00'}</b></span>
-            <span>Unique Veh: <b className="text-slate-700">{summary?.vehicles_today || recentDetections.length}</b></span>
+          <div className="text-right font-mono text-[10px] text-slate-400">
+            ~{summary ? Math.max(0, Math.round(summary.anpr_reads_today / 60)) : 0} /min
           </div>
         </div>
 
-        {/* CARD 3: SECURITY THREAT INCIDENTS */}
-        <div className="bg-white border border-slate-200 rounded p-3 shadow-2xs">
-          <div className="flex items-center justify-between text-slate-500 text-[10px] font-mono uppercase font-bold tracking-wider">
-            <span className="flex items-center gap-1.5 text-slate-700">
-              <ShieldAlert className="w-3.5 h-3.5 text-rose-600" />
-              SECURITY THREAT ALERTS
-            </span>
-            <span className="px-1.5 py-0.2 rounded font-mono text-[9px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
-              {alerts.length} ACTIVE
+        {/* CARD 3: VEHICLES TRACKED */}
+        <div className="bg-white border border-slate-200 rounded-md p-2.5 shadow-2xs flex flex-col justify-between">
+          <div className="flex items-center justify-between font-mono text-[10px] font-bold tracking-wider">
+            <span className="text-slate-500 uppercase">VEHICLES TRACKED</span>
+            <span className="text-teal-600 text-[10px] uppercase font-bold">UNIQUE</span>
+          </div>
+          <div className="mt-1 text-2xl font-bold font-mono text-slate-900 tracking-tight">
+            {summary?.vehicles_today || recentDetections.length}
+          </div>
+          <div className="text-right font-mono text-[10px] text-slate-400">
+            active registry
+          </div>
+        </div>
+
+        {/* CARD 4: OPEN INCIDENTS */}
+        <div className="bg-white border border-slate-200 rounded-md p-2.5 shadow-2xs flex flex-col justify-between">
+          <div className="flex items-center justify-between font-mono text-[10px] font-bold tracking-wider">
+            <span className="text-slate-500 uppercase">OPEN INCIDENTS</span>
+            <span className="text-emerald-600 text-[10px] uppercase font-bold">
+              {alerts.length === 0 ? 'CLEAR' : `${alerts.length} ACTIVE`}
             </span>
           </div>
-          <div className="mt-2 flex items-baseline justify-between">
-            <div className="text-2xl font-bold font-mono text-rose-700 tracking-tight">
-              {alerts.length}
-              <span className="text-xs font-normal text-slate-400 font-sans ml-1">intercepts</span>
-            </div>
-            <div className="flex items-center gap-1.5 text-[10px] font-mono">
-              <span className="px-1.5 py-0.5 rounded bg-rose-100 text-rose-900 font-bold">
-                CRIT: {criticalAlerts.length}
-              </span>
-              <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 font-bold">
-                HIGH: {highAlerts.length}
-              </span>
-            </div>
+          <div className="mt-1 text-2xl font-bold font-mono text-slate-900 tracking-tight">
+            {alerts.length}
           </div>
-          <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] font-mono text-slate-500">
-            <span>Advisory / Med: <b className="text-slate-700">{mediumAlerts.length}</b></span>
-            <button 
+          <div className="text-right font-mono text-[10px]">
+            <button
               onClick={() => onNavigate('alerts')}
-              className="text-blue-600 hover:text-blue-800 font-semibold cursor-pointer"
+              className="text-teal-600 hover:text-teal-700 cursor-pointer"
             >
-              Incident Triage &rarr;
+              Triage &rarr;
             </button>
-          </div>
-        </div>
-
-        {/* CARD 4: TRAFFIC VELOCITY & CONGESTION */}
-        <div className="bg-white border border-slate-200 rounded p-3 shadow-2xs">
-          <div className="flex items-center justify-between text-slate-500 text-[10px] font-mono uppercase font-bold tracking-wider">
-            <span className="flex items-center gap-1.5 text-slate-700">
-              <Gauge className="w-3.5 h-3.5 text-blue-600" />
-              CORRIDOR FLOW VELOCITY
-            </span>
-            <span className="text-[9px] font-mono text-slate-500">
-              INDEX: {summary?.congestion_index || 25}/100
-            </span>
-          </div>
-          <div className="mt-2 flex items-baseline justify-between">
-            <div className="text-2xl font-bold font-mono text-slate-900 tracking-tight">
-              {summary?.average_speed_kmh || 42}
-              <span className="text-xs font-normal text-slate-500 font-mono ml-1">km/h</span>
-            </div>
-            <div>
-              <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase border ${
-                (summary?.congestion_level || 'LOW') === 'HIGH'
-                  ? 'bg-rose-50 text-rose-800 border-rose-300'
-                  : (summary?.congestion_level || 'LOW') === 'MODERATE'
-                  ? 'bg-amber-50 text-amber-800 border-amber-300'
-                  : 'bg-emerald-50 text-emerald-800 border-emerald-300'
-              }`}>
-                {summary?.congestion_level || 'LOW'} DENSITY
-              </span>
-            </div>
-          </div>
-          <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] font-mono text-slate-500">
-            <span>Target Velocity: <b className="text-slate-700">45 km/h</b></span>
-            <span>Status: <b className="text-emerald-700">Optimal Flow</b></span>
           </div>
         </div>
       </div>
 
       {/* ------------------------------------------------------------- */}
-      {/* 2. THREE-COLUMN COMMAND CENTER WORKBENCH                      */}
+      {/* 3. 2-COLUMN MAIN WORKBENCH (SURVEILLANCE & GIS)               */}
       {/* ------------------------------------------------------------- */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5">
-        {/* COLUMN 1 (4 Cols): CCTV VIDEO SURVEILLANCE CONSOLE */}
-        <div className="lg:col-span-4 flex flex-col space-y-2.5">
-          <div className="bg-white border border-slate-200 rounded p-3 shadow-2xs flex-1 flex flex-col justify-between">
-            <div>
-              {/* Console Header */}
-              <div className="flex items-center justify-between pb-2.5 border-b border-slate-100">
-                <div className="flex items-center space-x-2">
-                  <span className={`w-2 h-2 rounded-full ${isWebcamActive ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'}`} />
-                  <h3 className="font-bold text-xs uppercase tracking-wider text-slate-900 font-mono">
-                    SURVEILLANCE HUD
-                  </h3>
-                </div>
-                <div className="flex items-center gap-1.5 font-mono text-[10px]">
-                  <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 font-bold">
-                    CAM-01 [OPTICAL]
-                  </span>
-                </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5">
+        {/* LEFT: LIVE SURVEILLANCE - CAM-01 */}
+        <div className="bg-white border border-slate-200 rounded-md p-2.5 shadow-2xs flex flex-col justify-between">
+          <div>
+            {/* Header */}
+            <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+              <div className="flex items-center space-x-2">
+                <span className={`w-2 h-2 rounded-full ${isWebcamActive ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'}`} />
+                <h3 className="font-bold text-xs uppercase tracking-wider text-slate-800 font-mono">
+                  LIVE SURVEILLANCE &mdash; CAM-01
+                </h3>
               </div>
+              <div className="font-mono text-[11px] text-slate-400">
+                {isWebcamActive ? '640x480 · ACTIVE · ONLINE' : '640x480 · STANDBY · OFFLINE'}
+              </div>
+            </div>
 
-              {/* Viewfinder Container */}
-              <div className="relative mt-2.5 rounded overflow-hidden bg-[#070b14] aspect-[4/3] border border-slate-800 flex items-center justify-center group">
-                {/* Hidden video element feeding into canvas */}
-                <video 
-                  ref={videoRef} 
-                  playsInline 
-                  muted 
-                  className="hidden" 
-                />
+            {/* Viewfinder Container (Compact standard height) */}
+            <div className="relative mt-2 rounded-md overflow-hidden bg-[#070b14] h-[240px] border border-slate-800 flex items-center justify-center">
+              <video 
+                ref={videoRef} 
+                playsInline 
+                muted 
+                className="hidden" 
+              />
+              <canvas 
+                ref={canvasRef} 
+                className={`w-full h-full object-cover ${isWebcamActive ? 'block' : 'hidden'}`} 
+              />
 
-                {/* Primary Rendering Canvas */}
-                <canvas 
-                  ref={canvasRef} 
-                  className={`w-full h-full object-cover ${isWebcamActive ? 'block' : 'hidden'}`} 
-                />
-
-                {/* Inactive Stand-by View */}
-                {!isWebcamActive && (
-                  <div className="text-center p-6 space-y-3">
-                    <div className="w-10 h-10 rounded bg-slate-900 border border-slate-800 flex items-center justify-center mx-auto text-slate-500">
-                      <CamIcon className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold text-white font-mono uppercase tracking-wider">
-                        Camera Standby
-                      </div>
-                      <div className="text-[11px] text-slate-400 mt-1 max-w-xs leading-relaxed">
-                        Click below to initialize local workstation optical sensor or trigger tactical target simulation.
-                      </div>
-                    </div>
-                    <button
-                      onClick={startWebcam}
-                      disabled={webcamLoading}
-                      className="px-4 py-1.5 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition-colors flex items-center gap-2 mx-auto cursor-pointer shadow-xs"
-                    >
-                      <Play className="w-3.5 h-3.5 fill-current" />
-                      <span>{webcamLoading ? 'INITIALIZING...' : 'START OPTICAL STREAM'}</span>
-                    </button>
+              {!isWebcamActive && (
+                <div className="text-center p-4 space-y-2">
+                  <div className="w-9 h-9 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-center mx-auto text-slate-400">
+                    <CamIcon className="w-4 h-4" />
                   </div>
-                )}
-
-                {/* Viewfinder Telemetry Overlay */}
-                {isWebcamActive && (
-                  <>
-                    {/* Top HUD Metadata */}
-                    <div className="absolute top-2 left-2 flex items-center gap-1.5 z-10 pointer-events-none">
-                      <span className="bg-slate-950/80 text-emerald-400 px-2 py-0.5 rounded text-[9px] font-mono font-bold border border-slate-700">
-                        {fps} FPS
-                      </span>
-                      <span className="bg-slate-950/80 text-blue-400 px-2 py-0.5 rounded text-[9px] font-mono border border-slate-700">
-                        STAT: {processingStatus}
-                      </span>
+                  <div>
+                    <div className="text-xs font-bold text-white font-mono uppercase tracking-wider">
+                      OPTICAL STREAM STANDBY
                     </div>
-
-                    <div className="absolute top-2 right-2 z-10">
-                      <button
-                        onClick={stopWebcam}
-                        className="bg-rose-600/90 hover:bg-rose-600 text-white p-1 rounded text-xs transition-colors cursor-pointer"
-                        title="Stop Optical Stream"
-                      >
-                        <Square className="w-3.5 h-3.5 fill-current" />
-                      </button>
+                    <div className="text-[11px] text-slate-400 mt-0.5 max-w-xs mx-auto leading-relaxed font-sans">
+                      Station optical sensor ready. Engage live stream or trigger test target injection below.
                     </div>
+                  </div>
+                  <button
+                    onClick={startWebcam}
+                    disabled={webcamLoading}
+                    className="px-4 py-1.5 rounded bg-[#0d9488] hover:bg-[#0f766e] text-white font-mono font-bold text-xs transition-colors flex items-center gap-1.5 mx-auto cursor-pointer shadow-xs mt-1"
+                  >
+                    <Play className="w-3 h-3 fill-current" />
+                    <span>{webcamLoading ? 'INITIALIZING...' : 'START OPTICAL STREAM'}</span>
+                  </button>
+                </div>
+              )}
 
-                    {lastProcessedTime && (
-                      <div className="absolute bottom-2 left-2 text-[9px] font-mono text-slate-400 bg-slate-950/80 px-2 py-0.5 rounded border border-slate-800 pointer-events-none">
-                        FRAME SYNC: {lastProcessedTime}
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-
-              {/* ACTIVE DETECTION TELEMETRY CARD */}
-              <div className="mt-2.5 p-2.5 bg-slate-50 border border-slate-200 rounded">
-                <div className="text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-1.5 flex items-center justify-between font-mono">
-                  <span>FRAME OCR TARGETS</span>
-                  {currentDetections.length > 0 && (
-                    <span className="text-emerald-700 font-bold">
-                      {currentDetections.length} RECOGNIZED
+              {isWebcamActive && (
+                <>
+                  <div className="absolute top-2 left-2 flex items-center gap-1.5 z-10 pointer-events-none">
+                    <span className="bg-slate-950/80 text-emerald-400 px-2 py-0.5 rounded text-[9px] font-mono font-bold border border-slate-700">
+                      {fps} FPS
                     </span>
-                  )}
-                </div>
-
-                {currentDetections.length > 0 ? (
-                  <div className="space-y-1.5">
-                    {currentDetections.map((det, idx) => {
-                      const isBlacklist = det.normalized_plate.includes('ZZ0002') || det.plate_number.includes('DL 99 ZZ 0002');
-                      return (
-                        <div 
-                          key={idx} 
-                          onClick={() => onNavigate('vehicles', det.plate_number)}
-                          className={`p-2 rounded border transition-all cursor-pointer flex items-center justify-between ${
-                            isBlacklist 
-                              ? 'bg-rose-50 border-rose-300 hover:bg-rose-100' 
-                              : 'bg-white border-slate-200 hover:border-blue-400'
-                          }`}
-                        >
-                          <div>
-                            <div className="font-mono text-xs font-black text-slate-900 flex items-center gap-1.5">
-                              <span>{det.plate_number}</span>
-                              {isBlacklist && (
-                                <span className="bg-rose-600 text-white text-[8px] px-1 py-0.2 rounded font-bold uppercase">
-                                  WATCHLIST MATCH
-                                </span>
-                              )}
-                            </div>
-                            <div className="text-[10px] text-slate-500 mt-0.5 font-mono">
-                              Type: <b className="text-slate-700">{det.vehicle_type}</b> &bull; OCR Conf: <b>{Math.round(det.ocr_confidence * 100)}%</b>
-                            </div>
-                          </div>
-                          <span className="text-blue-700 text-xs font-bold flex items-center gap-0.5">
-                            Dossier <ChevronRight className="w-3.5 h-3.5" />
-                          </span>
-                        </div>
-                      );
-                    })}
+                    <span className="bg-slate-950/80 text-teal-400 px-2 py-0.5 rounded text-[9px] font-mono border border-slate-700">
+                      STAT: {processingStatus}
+                    </span>
                   </div>
-                ) : (
-                  <div className="text-[11px] text-slate-400 py-1 font-mono italic">
-                    {isWebcamActive ? 'Optical sensor listening for vehicle number plates...' : 'Camera standby. Start stream or click simulation buttons below.'}
-                  </div>
-                )}
-              </div>
-
-              {/* CRITICAL BLACKLIST POPUP IF DETECTED */}
-              {activeBlacklistAlert && (
-                <div className="mt-2.5 p-2.5 rounded bg-rose-600 text-white border border-rose-700 animate-fadeIn">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <ShieldAlert className="w-4 h-4 text-yellow-300" />
-                      <div>
-                        <div className="text-[9px] uppercase font-mono font-bold tracking-wider text-rose-200">
-                          CRITICAL INTERCEPT
-                        </div>
-                        <div className="text-xs font-mono font-black">
-                          {activeBlacklistAlert.plate} &bull; {activeBlacklistAlert.reason}
-                        </div>
-                      </div>
-                    </div>
+                  <div className="absolute top-2 right-2 z-10">
                     <button
-                      onClick={() => onNavigate('vehicles', activeBlacklistAlert.plate)}
-                      className="px-2 py-1 rounded bg-yellow-400 hover:bg-yellow-300 text-slate-900 text-[10px] font-bold font-mono cursor-pointer"
+                      onClick={stopWebcam}
+                      className="bg-slate-800 hover:bg-slate-700 text-white p-1 rounded text-xs transition-colors cursor-pointer border border-slate-700"
+                      title="Stop Optical Stream"
                     >
-                      TRIAGE &rarr;
+                      <Square className="w-3.5 h-3.5 fill-current" />
                     </button>
                   </div>
-                </div>
+                  {lastProcessedTime && (
+                    <div className="absolute bottom-2 left-2 text-[9px] font-mono text-slate-400 bg-slate-950/80 px-2 py-0.5 rounded border border-slate-800 pointer-events-none">
+                      FRAME SYNC: {lastProcessedTime}
+                    </div>
+                  )}
+                </>
               )}
             </div>
 
-            {/* Tactical Target Injectors */}
-            <div className="mt-2.5 pt-2.5 border-t border-slate-100 space-y-2">
-              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider font-mono">
-                TACTICAL TARGET SIMULATOR
+            {/* Recognized Plate Target Readout (Clean Neutral) */}
+            {currentDetections.length > 0 && (
+              <div className="mt-2.5 p-2.5 bg-slate-50 border border-slate-200 rounded text-xs font-mono">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center justify-between">
+                  <span>DETECTED TARGETS</span>
+                  <span className="text-teal-700 font-bold">{currentDetections.length} RECOGNIZED</span>
+                </div>
+                <div className="space-y-1">
+                  {currentDetections.map((det, idx) => (
+                    <div 
+                      key={idx}
+                      onClick={() => onNavigate('vehicles', det.plate_number)}
+                      className="p-2 rounded border border-slate-200 bg-white hover:border-slate-300 flex items-center justify-between cursor-pointer transition-colors"
+                    >
+                      <span className="font-bold text-slate-900">{det.plate_number}</span>
+                      <span className="text-[11px] text-slate-500">
+                        {det.vehicle_type} &bull; {Math.round(det.ocr_confidence * 100)}%
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="grid grid-cols-3 gap-1.5 font-mono">
-                <button
-                  onClick={() => triggerSyntheticPlateTest('DL 99 ZZ 0001', 'Sedan', false)}
-                  className="p-1.5 rounded bg-slate-50 hover:bg-slate-100 text-slate-800 text-[10px] font-semibold border border-slate-200 text-center cursor-pointer"
-                >
-                  <span className="block font-bold">DL 99 ZZ 0001</span>
-                  <span className="text-[9px] text-emerald-700">Clear [Sedan]</span>
-                </button>
-                <button
-                  onClick={() => triggerSyntheticPlateTest('DL 99 ZZ 0002', 'SUV', true)}
-                  className="p-1.5 rounded bg-rose-50 hover:bg-rose-100 text-rose-900 text-[10px] font-semibold border border-rose-300 text-center cursor-pointer"
-                >
-                  <span className="block font-bold text-rose-800">DL 99 ZZ 0002</span>
-                  <span className="text-[9px] text-rose-600 font-bold">Watchlist 🔴</span>
-                </button>
-                <button
-                  onClick={() => triggerSyntheticPlateTest('HR 99 YY 0003', 'Motorcycle', false)}
-                  className="p-1.5 rounded bg-amber-50 hover:bg-amber-100 text-amber-900 text-[10px] font-semibold border border-amber-300 text-center cursor-pointer"
-                >
-                  <span className="block font-bold text-amber-800">HR 99 YY 0003</span>
-                  <span className="text-[9px] text-amber-600 font-bold">Challan 🟡</span>
-                </button>
-              </div>
-
-              {/* Upload image fallback */}
-              <div>
-                <input 
-                  type="file" 
-                  ref={fileInputRef} 
-                  onChange={handleFileUpload} 
-                  accept="image/*" 
-                  className="hidden" 
-                />
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className="w-full py-1.5 rounded bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 text-[10px] font-mono font-medium flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <Upload className="w-3 h-3 text-slate-400" />
-                  <span>MANUAL SNAPSHOT ANPR INGESTION</span>
-                </button>
-              </div>
-            </div>
+            )}
           </div>
         </div>
 
-        {/* COLUMN 2 (5 Cols): SURVEILLANCE GIS MAP */}
-        <div className="lg:col-span-5 flex flex-col space-y-2.5">
-          <div className="bg-white border border-slate-200 rounded p-3 shadow-2xs flex-1 flex flex-col">
-            {/* Map Header */}
+        {/* RIGHT: SURVEILLANCE GIS */}
+        <div className="bg-white border border-slate-200 rounded-md p-2.5 shadow-2xs flex flex-col justify-between">
+          <div>
             <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 mb-2">
-              <div className="flex items-center space-x-2">
-                <MapPin className="w-4 h-4 text-blue-600" />
-                <h3 className="font-bold text-xs uppercase tracking-wider text-slate-900 font-mono">
-                  CITY SURVEILLANCE GIS GRID
+              <div className="flex items-center space-x-1.5">
+                <Crosshair className="w-4 h-4 text-teal-600" />
+                <h3 className="font-bold text-xs uppercase tracking-wider text-slate-800 font-mono">
+                  SURVEILLANCE GIS
                 </h3>
               </div>
-              <div className="flex items-center gap-2 text-xs font-mono">
-                <span className="text-[10px] text-emerald-700 font-bold">
-                  {camSummary.online} ACTIVE
-                </span>
-                <span className="text-slate-300">|</span>
-                <span className="text-[10px] text-slate-500 font-medium">
-                  {camSummary.offline} INACTIVE
-                </span>
+              <div className="font-mono text-xs flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span className="text-teal-700 font-bold">{camSummary.online} ONLINE</span>
+                <span className="text-slate-300">&bull;</span>
+                <span className="text-slate-400">{camSummary.total} NODES</span>
               </div>
             </div>
 
-            {/* Interactive React-Leaflet Map Component */}
-            <div className="flex-1 min-h-[380px] rounded overflow-hidden border border-slate-200">
+            {/* Map Container */}
+            <div className="relative h-[240px] rounded-md overflow-hidden border border-slate-200">
               <TrafficMap 
                 cameras={cameras}
                 height="100%"
@@ -720,151 +566,62 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 onSelectCamera={(c) => setSelectedCameraId(c.id)}
               />
             </div>
-
-            {/* Selected Camera Telemetry Card (Requirement 14) */}
-            {selectedCameraId && (() => {
-              const selectedCam = cameras.find(c => c.id === selectedCameraId);
-              if (!selectedCam) return null;
-              const camAlerts = alerts.filter(a => a.camera_id === selectedCam.id || a.camera_code === selectedCam.camera_code);
-              const camDetections = recentDetections.filter(d => d.camera_id === selectedCam.id || d.camera_code === selectedCam.camera_code);
-
-              return (
-                <div className="mt-2.5 p-2.5 bg-slate-50 border border-slate-200 rounded text-xs font-mono">
-                  <div className="flex items-center justify-between font-bold text-slate-900 mb-1">
-                    <span className="flex items-center gap-1.5 text-blue-700">
-                      <CamIcon className="w-3.5 h-3.5" />
-                      {selectedCam.camera_code} &bull; {selectedCam.name}
-                    </span>
-                    <span className={`px-1.5 py-0.2 rounded text-[9px] ${
-                      selectedCam.status === 'ONLINE' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'
-                    }`}>
-                      {selectedCam.status}
-                    </span>
-                  </div>
-                  <div className="text-slate-600 text-[10px] mb-2 font-mono">
-                    LOC: {selectedCam.location_name} | COORDS: <b className="text-slate-900">{selectedCam.latitude.toFixed(4)}, {selectedCam.longitude.toFixed(4)}</b> | SRC: <b className="text-blue-700">{selectedCam.location_source || 'MANUAL'}</b>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 text-[10px]">
-                    <div className="bg-white p-1.5 rounded border border-slate-200">
-                      <span className="text-slate-400 block text-[9px] uppercase font-mono">Camera Threats</span>
-                      <strong className={camAlerts.length > 0 ? 'text-rose-700' : 'text-slate-700'}>
-                        {camAlerts.length} Active Incident(s)
-                      </strong>
-                    </div>
-                    <div className="bg-white p-1.5 rounded border border-slate-200">
-                      <span className="text-slate-400 block text-[9px] uppercase font-mono">Recent Observations</span>
-                      <strong className="text-slate-700">
-                        {camDetections.length} ANPR Observations
-                      </strong>
-                    </div>
-                  </div>
-                </div>
-              );
-            })()}
-
-            <div className="mt-2 text-[10px] text-slate-400 font-mono flex items-center justify-between">
-              <span>Select camera pins on map to inspect location telemetry.</span>
-              <span className="text-slate-500 font-bold">Leaflet GIS Engine</span>
-            </div>
-          </div>
-        </div>
-
-        {/* COLUMN 3 (3 Cols): ACTIVE INCIDENT THREAT FEED */}
-        <div className="lg:col-span-3 flex flex-col space-y-2.5">
-          <div className="bg-white border border-slate-200 rounded p-3 shadow-2xs flex-1 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between pb-2.5 border-b border-slate-100">
-                <div className="flex items-center space-x-2">
-                  <ShieldAlert className="w-4 h-4 text-rose-600" />
-                  <h3 className="font-bold text-xs uppercase tracking-wider text-slate-900 font-mono">
-                    THREAT QUEUE
-                  </h3>
-                </div>
-                <span className="px-1.5 py-0.2 rounded font-mono text-[9px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
-                  {alerts.length} PENDING
-                </span>
-              </div>
-
-              {/* Alert items list */}
-              <div className="mt-2.5 space-y-2 max-h-[440px] overflow-y-auto pr-0.5 custom-scrollbar">
-                {alerts.length > 0 ? (
-                  alerts.slice(0, 7).map(alert => {
-                    const isCritical = alert.severity === 'CRITICAL';
-                    const isHigh = alert.severity === 'HIGH';
-
-                    return (
-                      <div
-                        key={alert.id}
-                        onClick={() => alert.plate_number && onNavigate('vehicles', alert.plate_number)}
-                        className={`p-2.5 rounded border transition-colors cursor-pointer text-xs ${
-                          isCritical
-                            ? 'bg-rose-50/70 border-rose-300 hover:bg-rose-100/70'
-                            : isHigh
-                            ? 'bg-amber-50/70 border-amber-300 hover:bg-amber-100/70'
-                            : 'bg-slate-50 border-slate-200 hover:bg-slate-100'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between font-mono text-[10px]">
-                          <span className={`px-1.5 py-0.2 rounded font-bold uppercase ${
-                            isCritical ? 'bg-rose-600 text-white' : isHigh ? 'bg-amber-600 text-white' : 'bg-slate-700 text-white'
-                          }`}>
-                            {alert.severity}
-                          </span>
-                          <span className="text-slate-400 font-medium">
-                            {new Date(alert.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </span>
-                        </div>
-
-                        <p className="text-[11px] text-slate-700 font-medium mt-1 line-clamp-2 leading-relaxed font-sans">
-                          {alert.description}
-                        </p>
-
-                        <div className="mt-2 pt-1.5 border-t border-slate-200/60 flex items-center justify-between text-[10px] font-mono">
-                          {alert.plate_number ? (
-                            <span className="font-bold text-slate-900 bg-white px-1.5 py-0.2 rounded border border-slate-300">
-                              {alert.plate_number}
-                            </span>
-                          ) : (
-                            <span className="text-slate-500">{alert.camera_code || 'SENSOR'}</span>
-                          )}
-
-                          <button
-                            onClick={(e) => handleAcknowledgeAlert(alert.id, e)}
-                            className="text-slate-500 hover:text-slate-800 font-bold px-1.5 py-0.2 rounded hover:bg-white transition-colors cursor-pointer"
-                          >
-                            ACK &rarr;
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <div className="text-center py-12 space-y-2">
-                    <CheckCircle2 className="w-6 h-6 text-emerald-500 mx-auto" />
-                    <div className="text-xs font-bold text-slate-700 font-mono">PERIMETER CLEAR</div>
-                    <div className="text-[10px] text-slate-400">Zero unhandled security intercepts</div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="pt-2.5 border-t border-slate-100">
-              <button
-                onClick={() => onNavigate('alerts')}
-                className="w-full py-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono text-xs font-semibold flex items-center justify-center gap-1 transition-colors cursor-pointer"
-              >
-                <span>OPEN INCIDENT LOG</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
           </div>
         </div>
       </div>
 
       {/* ------------------------------------------------------------- */}
-      {/* 3. BOTTOM: HIGH-DENSITY ANPR DETECTIONS TELEMETRY TABLE       */}
+      {/* 4. TARGET SIMULATION & INGESTION (FULL-WIDTH WORKBENCH)        */}
       {/* ------------------------------------------------------------- */}
-      <div className="bg-white border border-slate-200 rounded p-3.5 shadow-2xs">
+      <div className="bg-white border border-slate-200 rounded-md p-3.5 shadow-2xs">
+        <div className="flex items-center justify-between pb-2 mb-2.5">
+          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider font-mono">
+            TARGET SIMULATION & INGESTION
+          </span>
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            className="text-xs font-mono text-slate-600 hover:text-slate-900 flex items-center gap-1.5 cursor-pointer font-medium"
+          >
+            <Upload className="w-3.5 h-3.5" />
+            <span>Upload Snapshot</span>
+          </button>
+        </div>
+        <input 
+          type="file" 
+          ref={fileInputRef} 
+          onChange={handleFileUpload} 
+          accept="image/*" 
+          className="hidden" 
+        />
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">
+          <button
+            onClick={() => triggerSyntheticPlateTest('DL 99 ZZ 0001', 'Sedan', false)}
+            className="py-2.5 px-3 rounded bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 text-center cursor-pointer transition-colors shadow-2xs"
+          >
+            <span className="block font-bold text-sm tracking-wide">DL 99 ZZ 0001</span>
+            <span className="text-xs text-slate-500 mt-0.5 block font-sans">Clear [Sedan]</span>
+          </button>
+          <button
+            onClick={() => triggerSyntheticPlateTest('DL 99 ZZ 0002', 'SUV', false)}
+            className="py-2.5 px-3 rounded bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 text-center cursor-pointer transition-colors shadow-2xs"
+          >
+            <span className="block font-bold text-sm tracking-wide">DL 99 ZZ 0002</span>
+            <span className="text-xs text-slate-500 mt-0.5 block font-sans">Target [SUV]</span>
+          </button>
+          <button
+            onClick={() => triggerSyntheticPlateTest('HR 99 YY 0003', 'Motorcycle', false)}
+            className="py-2.5 px-3 rounded bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 text-center cursor-pointer transition-colors shadow-2xs"
+          >
+            <span className="block font-bold text-sm tracking-wide">HR 99 YY 0003</span>
+            <span className="text-xs text-slate-500 mt-0.5 block font-sans">Target [Bike]</span>
+          </button>
+        </div>
+      </div>
+
+      {/* ------------------------------------------------------------- */}
+      {/* 4. REAL-TIME ANPR TELEMETRY TABLE (CLEAN NEUTRAL THEME)       */}
+      {/* ------------------------------------------------------------- */}
+      <div className="bg-white border border-slate-200 rounded-md p-3.5 shadow-2xs">
         <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 mb-2">
           <div>
             <div className="flex items-center gap-2">
@@ -881,7 +638,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           </div>
           <button
             onClick={() => onNavigate('vehicles')}
-            className="text-xs font-mono font-bold text-blue-700 hover:text-blue-900 flex items-center gap-1 cursor-pointer"
+            className="text-xs font-mono font-bold text-teal-700 hover:text-teal-900 flex items-center gap-1 cursor-pointer"
           >
             <span>GLOBAL VEHICLE SEARCH</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
@@ -905,9 +662,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             <tbody className="divide-y divide-slate-100 text-slate-700 font-mono">
               {recentDetections.length > 0 ? (
                 recentDetections.map((obs) => {
-                  const isBlacklist = obs.plate_number.includes('ZZ 0002') || obs.plate_number.includes('ZZ0002');
-                  const isChallan = obs.plate_number.includes('YY 0003') || obs.plate_number.includes('YY0003');
-
                   return (
                     <tr 
                       key={obs.id} 
@@ -918,20 +672,14 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                         {new Date(obs.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                       </td>
                       <td className="py-2 px-3 whitespace-nowrap">
-                        <span className={`font-black font-mono px-2 py-0.5 rounded border text-[11px] ${
-                          isBlacklist
-                            ? 'bg-rose-100 text-rose-900 border-rose-300'
-                            : isChallan
-                            ? 'bg-amber-100 text-amber-900 border-amber-300'
-                            : 'bg-slate-100 text-slate-900 border-slate-300'
-                        }`}>
+                        <span className="font-bold font-mono px-2 py-0.5 rounded border text-[11px] bg-slate-100 text-slate-900 border-slate-300">
                           {obs.plate_number}
                         </span>
                       </td>
                       <td className="py-2 px-3 font-sans capitalize text-slate-800 text-[11px]">
                         {obs.vehicle_type || 'Car'}
                       </td>
-                      <td className="py-2 px-3 whitespace-nowrap font-mono text-[11px] text-blue-700 font-semibold">
+                      <td className="py-2 px-3 whitespace-nowrap font-mono text-[11px] text-teal-700 font-semibold">
                         {obs.camera_code || 'CAM-01'}
                       </td>
                       <td className="py-2 px-3 font-sans text-slate-600 truncate max-w-[200px] text-[11px]">
@@ -944,29 +692,19 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                           </span>
                           <div className="w-12 h-1.5 rounded-full bg-slate-200 overflow-hidden">
                             <div 
-                              className="h-full bg-blue-600" 
+                              className="h-full bg-teal-600" 
                               style={{ width: `${Math.round(obs.ocr_confidence * 100)}%` }}
                             />
                           </div>
                         </div>
                       </td>
                       <td className="py-2 px-3 whitespace-nowrap">
-                        {isBlacklist ? (
-                          <span className="px-2 py-0.5 rounded font-mono font-bold text-[9px] bg-rose-100 text-rose-900 border border-rose-300">
-                            WATCHLIST MATCH
-                          </span>
-                        ) : isChallan ? (
-                          <span className="px-2 py-0.5 rounded font-mono font-bold text-[9px] bg-amber-100 text-amber-900 border border-amber-300">
-                            CHALLAN PENDING
-                          </span>
-                        ) : (
-                          <span className="px-2 py-0.5 rounded font-mono font-bold text-[9px] bg-emerald-100 text-emerald-900 border border-emerald-300">
-                            CLEAR
-                          </span>
-                        )}
+                        <span className="px-2 py-0.5 rounded font-mono font-bold text-[9px] bg-slate-100 text-slate-700 border border-slate-300">
+                          OBSERVED
+                        </span>
                       </td>
                       <td className="py-2 px-3 text-right whitespace-nowrap font-mono text-[11px]">
-                        <span className="text-blue-700 hover:text-blue-900 font-bold">
+                        <span className="text-teal-700 hover:text-teal-900 font-bold">
                           DOSSIER &rarr;
                         </span>
                       </td>
@@ -976,7 +714,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               ) : (
                 <tr>
                   <td colSpan={8} className="text-center py-6 text-slate-400 font-mono text-xs">
-                    No license plates recorded on station yet. Start webcam or simulate vehicle sighting above.
+                    No license plates recorded on station yet. Start optical stream or simulate vehicle sighting above.
                   </td>
                 </tr>
               )}

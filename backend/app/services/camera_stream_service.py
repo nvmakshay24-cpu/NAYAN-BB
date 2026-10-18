@@ -2,7 +2,7 @@ import logging
 from typing import Dict, Any, Optional
 from app.models.schemas import StreamType
 
-logger = logging.getLogger("urbantrace.stream")
+logger = logging.getLogger("nayan.stream")
 
 class CameraStreamService:
     """

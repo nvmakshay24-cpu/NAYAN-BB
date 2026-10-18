@@ -309,4 +309,129 @@ class SimulateObservationRequest(BaseModel):
     camera_id: Optional[str] = None
     speed_kmh: Optional[float] = None
 
+# ============================================================================
+# VEHICLE INVESTIGATION INTELLIGENCE (TINYFISH INTEGRATION) SCHEMAS
+# ============================================================================
+
+class ComparisonStatusEnum(str, Enum):
+    MATCH = "MATCH"
+    MISSING = "MISSING"
+    ADDITIONAL = "ADDITIONAL"
+    CONFLICT = "CONFLICT"
+
+class SourceStatusEnum(str, Enum):
+    CHECKED = "CHECKED"
+    UNAVAILABLE = "UNAVAILABLE"
+    NO_RELEVANT_RESULT = "NO_RELEVANT_RESULT"
+    REQUIRES_REVIEW = "REQUIRES_REVIEW"
+
+class RecordTypeEnum(str, Enum):
+    VEHICLE_REGISTRATION = "VEHICLE_REGISTRATION"
+    CHALLAN = "CHALLAN"
+    VIOLATION = "VIOLATION"
+    INCIDENT = "INCIDENT"
+    ACCIDENT_REPORT = "ACCIDENT_REPORT"
+    NEWS_REPORT = "NEWS_REPORT"
+    PUBLIC_NOTICE = "PUBLIC_NOTICE"
+
+class TimelineEventTypeEnum(str, Enum):
+    NAYAN_DETECTION = "NAYAN_DETECTION"
+    SOURCE_RECORD = "SOURCE_RECORD"
+    PUBLIC_WEB_FINDING = "PUBLIC_WEB_FINDING"
+
+class InvestigationActivityStep(BaseModel):
+    id: str
+    label: str
+    status: str = "completed"  # pending, running, completed, warning, error
+    timestamp: Optional[datetime] = None
+    detail: Optional[str] = None
+
+class InvestigationSourceAnalysis(BaseModel):
+    source_name: str
+    source_url: str
+    status: SourceStatusEnum
+    records_found: int = 0
+    events: List[str] = []
+    dates: List[str] = []
+    locations: List[str] = []
+    evidence: List[str] = []
+    response_time_ms: Optional[float] = None
+    status_note: Optional[str] = None
+
+class CrossSourceDiscrepancy(BaseModel):
+    id: str
+    category: ComparisonStatusEnum
+    field_or_subject: str
+    description: str
+    sources_involved: List[str] = []
+    evidence: str
+    severity: Optional[str] = "INFO"
+
+class WebIntelligenceFinding(BaseModel):
+    id: str
+    title: str
+    source_name: str
+    source_url: str
+    publication_date: Optional[str] = None
+    event_date: Optional[str] = None
+    extracted_evidence: str
+    relationship_to_nayan_event: str
+    relevance_score: float = 0.85
+    confidence: float = 0.90
+
+class InvestigationTimelineEvent(BaseModel):
+    id: str
+    event_type: TimelineEventTypeEnum
+    timestamp: datetime
+    event_date: str
+    event_time: str
+    source_name: str
+    source_url: Optional[str] = None
+    title: str
+    description: str
+    location_name: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    confidence: Optional[float] = None
+    comparison_status: Optional[ComparisonStatusEnum] = None
+    evidence: Optional[str] = None
+
+class InvestigationTrajectorySummary(BaseModel):
+    total_sightings: int = 0
+    first_sighting: Optional[datetime] = None
+    last_sighting: Optional[datetime] = None
+    camera_sequence: List[str] = []
+    route: List[str] = []
+    direction: Optional[str] = None
+    total_distance_km: float = 0.0
+    average_speed_kmh: float = 0.0
+
+class InvestigationRequest(BaseModel):
+    plate_number: str
+    start_date: str  # YYYY-MM-DD
+    end_date: str    # YYYY-MM-DD
+    include_web_intelligence: bool = True
+
+class InvestigationResult(BaseModel):
+    investigation_id: str
+    plate_number: str
+    start_date: str
+    end_date: str
+    status: str = "COMPLETED"  # IN_PROGRESS, COMPLETED, FAILED
+    created_at: datetime
+    completed_at: Optional[datetime] = None
+    vehicle_context: Dict[str, Any] = {}
+    trajectory_summary: Optional[InvestigationTrajectorySummary] = None
+    sources: List[InvestigationSourceAnalysis] = []
+    cross_source_analysis: List[CrossSourceDiscrepancy] = []
+    web_intelligence: List[WebIntelligenceFinding] = []
+    timeline: List[InvestigationTimelineEvent] = []
+    agent_activity_log: List[InvestigationActivityStep] = []
+    summary_verdict: str
+    disclaimer: str = (
+        "INVESTIGATION ASSISTANCE NOTICE: Information synthesized from authorized/public sources "
+        "and public web records. Does not constitute autonomous legal accusation. Human verification required."
+    )
+
 VehicleDetailProfileResponse.model_rebuild()
+InvestigationResult.model_rebuild()

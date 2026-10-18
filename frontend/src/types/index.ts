@@ -251,3 +251,158 @@ export interface SystemHealth {
   events_per_sec: number;
   uptime_seconds: number;
 }
+
+// ==========================================
+// Vehicle Investigation Intelligence (TinyFish)
+// ==========================================
+export type ComparisonStatus = 'MATCH' | 'MISSING' | 'ADDITIONAL' | 'CONFLICT';
+export type SourceStatus = 'SUCCESS' | 'NO_RECORDS' | 'ACCESSIBLE' | 'PARTIAL' | 'TIMEOUT' | 'ERROR';
+export type RecordType = 'CHALLAN' | 'REGISTRATION' | 'PERMIT' | 'TAX' | 'NOTICE' | 'NEWS' | 'INCIDENT' | 'OTHER';
+export type TimelineEventType = 'NAYAN_DETECTION' | 'SOURCE_RECORD' | 'PUBLIC_WEB_FINDING';
+
+export interface InvestigationActivityStep {
+  id: string;
+  step_number: number;
+  title: string;
+  description: string;
+  status: 'pending' | 'in_progress' | 'completed' | 'failed';
+  timestamp?: string;
+  elapsed_seconds?: number;
+}
+
+export interface InvestigationSourceRecord {
+  id?: string;
+  challan_number?: string;
+  notice_id?: string;
+  record_type?: RecordType;
+  date?: string;
+  time?: string;
+  location?: string;
+  violation?: string;
+  amount?: number;
+  status?: string;
+  source?: string;
+  details?: Record<string, any>;
+}
+
+export interface InvestigationSourceAnalysis {
+  source_name: string;
+  source_url: string;
+  status: string;
+  records_found?: number;
+  total_records?: number;
+  events?: string[];
+  dates?: string[];
+  locations?: string[];
+  evidence?: string[];
+  response_time_ms?: number;
+  latency_ms?: number;
+  status_note?: string;
+  summary?: string;
+  records?: InvestigationSourceRecord[];
+}
+
+export interface CrossSourceDiscrepancy {
+  id: string;
+  category: ComparisonStatus;
+  field_or_subject?: string;
+  title?: string;
+  description: string;
+  sources_involved: string[];
+  evidence: string | Record<string, any>;
+  severity?: string;
+  confidence?: number;
+  recommended_action?: string;
+}
+
+export interface WebIntelligenceFinding {
+  id?: string;
+  title: string;
+  url?: string;
+  source_url?: string;
+  source_name?: string;
+  snippet?: string;
+  extracted_evidence?: string;
+  publication_date?: string;
+  published_date?: string;
+  event_date?: string;
+  relevance_score?: number;
+  confidence?: number;
+  incident_type?: string;
+  relationship_to_nayan_event?: string;
+  location_mentioned?: string;
+}
+
+export interface InvestigationTimelineEvent {
+  id: string;
+  timestamp: string;
+  event_date?: string;
+  event_time?: string;
+  event_type: TimelineEventType;
+  source?: string;
+  source_name?: string;
+  source_url?: string;
+  title: string;
+  description: string;
+  location?: string;
+  location_name?: string;
+  latitude?: number;
+  longitude?: number;
+  severity?: Severity;
+  comparison_status?: ComparisonStatus;
+  confidence?: number;
+  evidence?: string;
+  metadata?: Record<string, any>;
+}
+
+export interface InvestigationTrajectorySummary {
+  plate_number?: string;
+  total_detections?: number;
+  total_sightings?: number;
+  unique_cameras?: number;
+  start_time?: string;
+  end_time?: string;
+  first_sighting?: string;
+  last_sighting?: string;
+  camera_sequence?: string[];
+  route?: string[];
+  direction?: string;
+  total_distance_km: number;
+  average_speed_kmh?: number;
+  cameras_visited?: string[];
+  anomalies_flagged?: number;
+}
+
+export interface InvestigationRequest {
+  plate_number: string;
+  start_date: string;
+  end_date: string;
+  include_web_intelligence?: boolean;
+  notes?: string;
+}
+
+export interface InvestigationResult {
+  id?: string;
+  investigation_id?: string;
+  plate_number: string;
+  start_date: string;
+  end_date: string;
+  created_at: string;
+  completed_at?: string;
+  status: string;
+  progress_percentage?: number;
+  agent_activity?: InvestigationActivityStep[];
+  agent_activity_log?: InvestigationActivityStep[];
+  vehicle_context?: Record<string, any>;
+  trajectory_summary?: InvestigationTrajectorySummary;
+  sources: InvestigationSourceAnalysis[] | Record<string, InvestigationSourceAnalysis>;
+  cross_source_analysis?: CrossSourceDiscrepancy[];
+  cross_source_discrepancies?: CrossSourceDiscrepancy[];
+  web_intelligence: WebIntelligenceFinding[];
+  timeline?: InvestigationTimelineEvent[];
+  unified_timeline?: InvestigationTimelineEvent[];
+  summary_verdict: string;
+  total_anomalies?: number;
+  disclaimer?: string;
+}
+

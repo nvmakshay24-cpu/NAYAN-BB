@@ -3,7 +3,7 @@ import {
   Search, ShieldAlert, AlertTriangle, ShieldCheck, CheckCircle2, 
   Calendar, Clock, Car, User, AlertOctagon, ArrowRight, 
   FileText, ExternalLink, ChevronRight, Navigation, MapPin,
-  Sparkles, Layers, Info, History, Shield, ArrowUpRight
+  Sparkles, Layers, Info, History, Shield, ArrowUpRight, FileSearch
 } from 'lucide-react';
 import { api } from '../lib/api';
 import { VehicleProfile, Vehicle } from '../types';
@@ -13,12 +13,14 @@ interface VehicleSearchPageProps {
   mode: 'live' | 'demo';
   initialPlate?: string;
   onNavigateTrajectory: (plate: string) => void;
+  onNavigateInvestigation?: (plate: string) => void;
 }
 
 export const VehicleSearchPage: React.FC<VehicleSearchPageProps> = ({ 
   mode, 
   initialPlate,
-  onNavigateTrajectory 
+  onNavigateTrajectory,
+  onNavigateInvestigation
 }) => {
   const [query, setQuery] = useState<string>(initialPlate || (mode === 'demo' ? 'DL 99 ZZ 0002' : ''));
   const [loading, setLoading] = useState<boolean>(false);
@@ -312,7 +314,7 @@ export const VehicleSearchPage: React.FC<VehicleSearchPageProps> = ({
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 text-xs font-mono">
+              <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
                 <div className="bg-[#090E1A] px-2.5 py-1.5 rounded border border-[#1E293B]">
                   <span className="text-slate-500 block text-[9px] uppercase">Sightings</span>
                   <span className="text-slate-200 font-bold">{profile.observations.length} Detections</span>
@@ -321,6 +323,24 @@ export const VehicleSearchPage: React.FC<VehicleSearchPageProps> = ({
                   <span className="text-slate-500 block text-[9px] uppercase">Registration</span>
                   <span className="text-emerald-400 font-bold">{profile.vehicle.registration_status || 'ACTIVE'}</span>
                 </div>
+                {onNavigateInvestigation && (
+                  <button
+                    type="button"
+                    onClick={() => onNavigateInvestigation(profile.vehicle.plate_number)}
+                    className="px-3 py-1.5 rounded bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-500 hover:from-blue-500 hover:to-teal-400 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-cyan-950/50 cursor-pointer border border-cyan-400/30 transition-all"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
+                    <span>Investigate with TinyFish</span>
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => onNavigateTrajectory(profile.vehicle.plate_number)}
+                  className="px-3 py-1.5 rounded bg-[#131F37] hover:bg-[#1A2946] text-blue-300 font-bold text-xs flex items-center gap-1.5 border border-[#1E293B] cursor-pointer transition-all"
+                >
+                  <Navigation className="w-3.5 h-3.5 text-blue-400" />
+                  <span>View Trajectory</span>
+                </button>
               </div>
             </div>
 

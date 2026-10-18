@@ -1,6 +1,6 @@
-# UrbanTrace AI — System Architecture & Technical Specifications
+# NAYAN — System Architecture & Technical Specifications
 
-UrbanTrace AI is a high-performance, local-first Automatic Number Plate Recognition (ANPR) and city-wide vehicle movement intelligence platform designed for smart city command centers and SIH (Smart India Hackathon) prototypes.
+NAYAN is a high-performance, local-first Automatic Number Plate Recognition (ANPR) and city-wide vehicle movement intelligence platform designed for smart city command centers and SIH (Smart India Hackathon) prototypes.
 
 ---
 
@@ -65,7 +65,7 @@ The ANPR engine is designed to run efficiently on standard laptop CPUs without r
 - Adds 5% horizontal and 10% vertical padding to prevent glyph clipping.
 
 ### C. Pluggable OCR Architecture (`backend/app/anpr/ocr_service.py`)
-UrbanTrace AI uses an abstract adapter pattern `OCRService`:
+NAYAN uses an abstract adapter pattern `OCRService`:
 - **`DemoOCRAdapter`**: Built-in CPU heuristic engine. Requires no heavy deep learning libraries, runs instantaneously, and outputs clear `DEMO MODE` indicators.
 - **`PaddleOCRAdapter`**: Plugin adapter connecting to Baidu PaddleOCR (PP-OCRv4). Automatically activates if `paddleocr` is installed.
 - **`EasyOCRAdapter`**: Plugin adapter connecting to JaidedAI EasyOCR (CRAFT + CRNN). Automatically activates if `easyocr` is installed.

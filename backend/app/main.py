@@ -10,6 +10,7 @@ from app.api.traffic import router as traffic_router
 from app.api.alerts import router as alerts_router
 from app.api.blacklist import router as blacklist_router
 from app.api.demo import router as demo_router
+from app.api.investigation import router as investigation_router
 from app.config import settings
 
 # Configure logging
@@ -17,7 +18,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
 )
-logger = logging.getLogger("urbantrace.main")
+logger = logging.getLogger("nayan.main")
 
 app = FastAPI(
     title="NAYAN — Networked AI for Yield & ANPR Navigation",
@@ -46,6 +47,7 @@ app.include_router(traffic_router, prefix="/api")
 app.include_router(alerts_router, prefix="/api")
 app.include_router(blacklist_router, prefix="/api")
 app.include_router(demo_router, prefix="/api")
+app.include_router(investigation_router, prefix="/api")
 
 @app.get("/")
 def root():

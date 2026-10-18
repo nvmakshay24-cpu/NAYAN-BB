@@ -28,6 +28,20 @@
   background: #334155;
 }
 
+/* Light Scrollbar for White Sidebar */
+aside nav::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+aside nav::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 3px;
+}
+
+aside nav::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
 /* Leaflet Clean Dark Command Theme */
 .leaflet-container {
   background-color: #090E1A !important;

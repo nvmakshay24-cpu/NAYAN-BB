@@ -10,7 +10,7 @@ from app.anpr.ocr_service import OCRService, get_ocr_adapter, DemoOCRAdapter
 from app.anpr.indian_plate_validator import IndianPlateValidator
 from app.models.schemas import DetectionItem, ANPRProcessResponse
 
-logger = logging.getLogger("urbantrace.anpr")
+logger = logging.getLogger("nayan.anpr")
 
 class ANPRService(abc.ABC):
     """Abstract interface for ANPR pipeline."""

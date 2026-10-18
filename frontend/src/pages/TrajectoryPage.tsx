@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
   Navigation, Play, Pause, RotateCcw, AlertTriangle, 
   Clock, Activity, MapPin, Search, ArrowRight, ShieldCheck, Zap, AlertOctagon,
-  ChevronLeft, ChevronRight, Gauge, FastForward
+  ChevronLeft, ChevronRight, Gauge, FastForward, FileSearch, Sparkles
 } from 'lucide-react';
 import { api } from '../lib/api';
 import { TrajectoryData, Camera, TrajectoryPoint } from '../types';
@@ -11,11 +11,13 @@ import { TrafficMap } from '../components/map/TrafficMap';
 interface TrajectoryPageProps {
   initialPlate?: string;
   mode?: 'live' | 'demo';
+  onNavigateInvestigation?: (plate: string) => void;
 }
 
 export const TrajectoryPage: React.FC<TrajectoryPageProps> = ({ 
   initialPlate = 'DL01AB1234',
-  mode = 'live' 
+  mode = 'live',
+  onNavigateInvestigation
 }) => {
   const [plate, setPlate] = useState<string>(initialPlate);
   const [searchInput, setSearchInput] = useState<string>(initialPlate);
@@ -246,6 +248,36 @@ export const TrajectoryPage: React.FC<TrajectoryPageProps> = ({
 
       {trajectory && (
         <>
+          {/* TINYFISH INVESTIGATION ACTION BAR */}
+          <div className="bg-[#0D1526] border border-cyan-800/40 rounded p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+            <div className="flex items-center gap-2.5">
+              <div className="p-1.5 rounded bg-cyan-950 border border-cyan-500/30 text-cyan-400 shrink-0">
+                <FileSearch className="w-4 h-4" />
+              </div>
+              <div>
+                <div className="text-xs font-bold text-white font-mono flex items-center gap-2">
+                  <span>Vehicle Investigation Intelligence Layer</span>
+                  <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-700/50">
+                    TinyFish Multi-Source
+                  </span>
+                </div>
+                <div className="text-[11px] text-slate-400">
+                  Investigate what government records, challans, and public news exist around this trajectory journey.
+                </div>
+              </div>
+            </div>
+            {onNavigateInvestigation && (
+              <button
+                type="button"
+                onClick={() => onNavigateInvestigation(trajectory.plate_number)}
+                className="px-3.5 py-1.5 rounded bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-500 hover:from-blue-500 hover:to-teal-400 text-white font-bold text-xs font-mono flex items-center gap-1.5 shadow-md shadow-cyan-950/50 cursor-pointer border border-cyan-400/30 transition-all self-start sm:self-auto shrink-0"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
+                <span>Investigate with TinyFish</span>
+              </button>
+            )}
+          </div>
+
           {/* TRAJECTORY SUMMARY METRIC CARDS */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 font-mono">
             <div className="p-3.5 rounded bg-[#0D1526] border border-[#1E293B] shadow-2xs">

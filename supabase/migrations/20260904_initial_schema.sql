@@ -1,4 +1,4 @@
--- UrbanTrace AI: Initial PostgreSQL Schema for Supabase with Data Source Separation
+-- NAYAN: Initial PostgreSQL Schema for Supabase with Data Source Separation
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- 1. CAMERAS

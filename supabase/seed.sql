@@ -1,4 +1,4 @@
--- UrbanTrace AI: Seed Data
+-- NAYAN: Seed Data
 -- 1. Insert 20 Delhi Cameras
 INSERT INTO cameras (id, camera_code, name, location_name, latitude, longitude, status, stream_type) VALUES
 ('a0000000-0000-0000-0000-000000000001', 'C-001', 'Connaught Place Outer Circle', 'Connaught Place, Central Delhi', 28.6315, 77.2167, 'ONLINE', 'WEBCAM'),
