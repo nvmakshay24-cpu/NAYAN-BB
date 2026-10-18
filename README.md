@@ -177,8 +177,6 @@ NAYAN-BB/
 │   ├── tailwind.config.js       # Tailwind theme tokens
 │   └── vite.config.ts           # Vite build & proxy settings
 ├── docs/
-│   ├── images/                  # Architecture diagrams & schematics
-│   ├── presentation/            # Interactive hackathon slide deck
 │   ├── architecture.md          # In-depth architectural documentation
 │   └── setup.md                 # Detailed deployment & configuration guide
 ├── supabase/

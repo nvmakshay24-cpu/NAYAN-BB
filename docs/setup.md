@@ -80,7 +80,7 @@ NAYAN works out of the box with an automated local deterministic data provider. 
 
 ## 5. Official 18-Step Demonstration Script
 
-Follow these steps for a complete SIH presentation:
+Follow these steps for a complete live system demonstration:
 
 | Step | Action | Expected Result |
 |---|---|---|
