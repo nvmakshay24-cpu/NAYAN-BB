@@ -309,11 +309,3 @@ npm run build
 4. **Audit Trail**: Every camera coordinate update and alert triage action is logged with operator timestamps.
 
 ---
-
-## 👥 Team ByteBrains — Smart India Hackathon 2026
-
-- **Problem Statement ID**: 26127
-- **Theme**: Smart Automation / Transportation & Surveillance
-- **Team**: ByteBrains
-
-*Developed with precision for municipal transport departments, traffic police operations centers, and smart highway authorities.*
