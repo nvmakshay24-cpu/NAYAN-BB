@@ -131,7 +131,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       {/* ------------------------------------------------------------- */}
       {/* 1. TOP COMMAND BAR (LANE 1: BRAND + CONTROLS)                 */}
       {/* ------------------------------------------------------------- */}
-      <header className="bg-white border-b border-slate-200/90 shadow-2xs z-30 select-none shrink-0 px-5 py-2.5">
+      <header className="bg-white border-b border-slate-200/90 shadow-2xs relative z-[1050] select-none shrink-0 px-5 py-2.5">
         <div className="max-w-[1700px] mx-auto flex items-center justify-between gap-4">
           
           {/* LEFT: BRAND IDENTITY */}
@@ -201,10 +201,10 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       {/* ------------------------------------------------------------- */}
       {/* 2. DYNAMIC POP FLOATING NAVBAR (LANE 2: DYNAMIC ISLAND DOCK)  */}
       {/* ------------------------------------------------------------- */}
-      <div className="w-full flex justify-center py-2.5 px-4 bg-slate-100/60 border-b border-slate-200/70 shrink-0 z-20">
+      <div className="w-full flex justify-center py-2.5 px-4 bg-slate-100/60 border-b border-slate-200/70 shrink-0 relative z-[1100]">
         <nav 
           ref={navRef}
-          className="bg-white rounded-2xl border border-slate-200 shadow-sm px-2.5 py-1.5 flex items-center space-x-1.5 relative whitespace-nowrap transition-shadow hover:shadow-md"
+          className="bg-white rounded-2xl border border-slate-200 shadow-sm px-2.5 py-1.5 flex items-center space-x-1.5 relative z-[1110] whitespace-nowrap transition-shadow hover:shadow-md"
         >
           {/* 1. OVERVIEW */}
           <button
@@ -235,7 +235,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             </button>
 
             {openDropdown === 'cameras' && (
-              <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-slate-200 py-1.5 z-50 animate-fadeIn">
+              <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-slate-200 py-1.5 z-[1200] animate-fadeIn">
                 <button
                   onClick={() => { setOpenDropdown(null); onSelectTab('camera'); }}
                   className={`w-full flex items-center space-x-2.5 px-3.5 py-2 text-xs text-left cursor-pointer transition-colors ${
@@ -296,7 +296,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             </button>
 
             {openDropdown === 'vehicle' && (
-              <div className="absolute top-full left-0 mt-2 w-60 bg-white rounded-xl shadow-lg border border-slate-200 py-1.5 z-50 animate-fadeIn">
+              <div className="absolute top-full left-0 mt-2 w-60 bg-white rounded-xl shadow-2xl border border-slate-200 py-1.5 z-[1200] animate-fadeIn">
                 <button
                   onClick={() => { setOpenDropdown(null); onSelectTab('vehicles'); }}
                   className={`w-full flex items-center space-x-2.5 px-3.5 py-2 text-xs text-left cursor-pointer transition-colors ${
@@ -362,7 +362,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             </button>
 
             {openDropdown === 'incidents' && (
-              <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-slate-200 py-1.5 z-50 animate-fadeIn">
+              <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-slate-200 py-1.5 z-[1200] animate-fadeIn">
                 <button
                   onClick={() => { setOpenDropdown(null); onSelectTab('alerts'); }}
                   className={`w-full flex items-center space-x-2.5 px-3.5 py-2 text-xs text-left cursor-pointer transition-colors ${
@@ -423,7 +423,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             </button>
 
             {openDropdown === 'settings' && (
-              <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-50 animate-fadeIn">
+              <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-slate-200 py-2 z-[1200] animate-fadeIn">
                 <div className="px-3.5 py-1 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
                   System Configuration
                 </div>
