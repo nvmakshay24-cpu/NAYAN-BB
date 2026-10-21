@@ -169,6 +169,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       {/* ------------------------------------------------------------- */}
       <div className="w-full flex justify-center py-2.5 px-4 bg-slate-100/60 border-b border-slate-200/70 shrink-0 relative z-[1100]">
         <nav 
+          id="floating-nav-panel"
           ref={navRef}
           className="bg-white rounded-2xl border border-slate-200 shadow-sm px-2.5 py-1.5 flex items-center space-x-1.5 relative z-[1110] whitespace-nowrap transition-shadow hover:shadow-md"
         >
@@ -426,7 +427,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       {/* ------------------------------------------------------------- */}
       {/* 3. FULL-WIDTH ENTERPRISE WORKSPACE CONTENT                     */}
       {/* ------------------------------------------------------------- */}
-      <main className="flex-1 overflow-y-auto p-4 md:p-6 bg-[#f8fafc]">
+      <main className="flex-1 overflow-y-auto p-4 md:p-6 bg-[#f8fafc] font-['Inter']">
         <div className="max-w-[1700px] mx-auto space-y-4">
           {children}
         </div>

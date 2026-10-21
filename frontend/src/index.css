@@ -4,9 +4,19 @@
 
 @layer base {
   body {
-    @apply bg-[#090E1A] text-slate-100 font-sans;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    @apply bg-[#090E1A] text-slate-100;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
+}
+
+/* Make entire application workspace and all pages strictly use Inter */
+main, main * {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Except the floating navigation panel which keeps its original font styling */
+#floating-nav-panel, #floating-nav-panel * {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
 }
 
 /* Professional Enterprise Command Scrollbar */
@@ -28,7 +38,7 @@
   background: #334155;
 }
 
-/* Light Scrollbar for White Sidebar */
+/* Light Scrollbar for White Sidebar / Components */
 aside nav::-webkit-scrollbar-track {
   background: #ffffff;
 }
@@ -45,7 +55,7 @@ aside nav::-webkit-scrollbar-thumb:hover {
 /* Leaflet Clean Dark Command Theme */
 .leaflet-container {
   background-color: #090E1A !important;
-  font-family: inherit;
+  font-family: 'Inter', system-ui, sans-serif !important;
 }
 
 .leaflet-popup-content-wrapper {
