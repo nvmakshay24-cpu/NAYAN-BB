@@ -8,6 +8,7 @@ from fastapi.responses import StreamingResponse
 from app.models.schemas import InvestigationRequest, InvestigationResult
 from app.services.tinyfish_service import tinyfish_service
 from app.services.supabase_service import supabase_service
+from app.services.vehicle_resolver import resolve_vehicle_rc_profile
 from app.tracking.trajectory_service import TrajectoryService
 from app.config import settings
 
@@ -31,25 +32,18 @@ async def start_investigation(
     norm_plate = req.plate_number.replace(" ", "").upper()
     logger.info(f"Starting investigation for plate {norm_plate} from {req.start_date} to {req.end_date}")
 
-    # 1. Retrieve full vehicle context from Nayan
+    # 1. Retrieve full vehicle context and resolve complete RTO RC details
     v_profile = supabase_service.get_vehicle_profile(norm_plate)
-    vehicle_context: Dict[str, Any] = {}
-    if v_profile:
-        vehicle_context = {
+    base_context = None
+    if v_profile and v_profile.get("owner") and v_profile.get("owner", {}).get("owner_name") != "Registered Citizen":
+        base_context = {
             "vehicle": v_profile.get("vehicle", {}),
             "owner": v_profile.get("owner", {}),
             "has_alert": len(v_profile.get("alerts", [])) > 0,
             "alert_severity": v_profile.get("alerts", [{}])[0].get("severity") if v_profile.get("alerts") else None,
             "observations_count": len(v_profile.get("observations", [])),
         }
-    else:
-        v = supabase_service.get_vehicle(norm_plate)
-        vehicle_context = {
-            "vehicle": v or {"plate_number": norm_plate, "vehicle_class": "Private Car", "color": "White"},
-            "owner": {"owner_name": "Registered Citizen"},
-            "has_alert": False
-        }
-
+    vehicle_context = resolve_vehicle_rc_profile(norm_plate, base_context)
     # 2. Retrieve Nayan Trajectory Data
     observations = supabase_service.get_observations(plate=norm_plate, limit=100, mode="all")
     cams = supabase_service.get_cameras()

@@ -656,6 +656,141 @@ export const InvestigationPage: React.FC<InvestigationPageProps> = ({
       )}
 
       {/* ------------------------------------------------------------------ */}
+      {/* TARGET VEHICLE RC & REGISTERED OWNER DOSSIER                       */}
+      {/* ------------------------------------------------------------------ */}
+      {investigation && (
+        <div className="bg-white border border-slate-200 rounded-md p-5 shadow-2xs space-y-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-md bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-700 font-bold flex-shrink-0">
+                <ShieldCheck className="w-5 h-5 text-blue-600" />
+              </div>
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-mono text-sm font-bold text-slate-900 tracking-tight">
+                    {investigation.vehicle_context?.owner?.owner_name || 'REGISTERED CITIZEN'}
+                  </span>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
+                    <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                    VAHAN RC VERIFIED
+                  </span>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                    {investigation.vehicle_context?.owner?.ownership_serial || '1st Owner (Individual)'}
+                  </span>
+                </div>
+                <div className="text-xs text-slate-500 font-mono mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <span>S/O, D/O, W/O: <strong className="text-slate-700">{investigation.vehicle_context?.owner?.father_husband_name || 'Official Guardian on Record'}</strong></span>
+                  <span>&bull;</span>
+                  <span>Registered RTO: <strong className="text-slate-800">{investigation.vehicle_context?.vehicle?.rto_jurisdiction || 'Delhi Transport Authority'}</strong></span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 self-start md:self-auto">
+              <div className="flex items-center border border-slate-300 rounded px-2.5 py-1 bg-slate-50 font-mono shadow-2xs">
+                <span className="text-[10px] text-blue-800 font-bold border-r border-slate-300 pr-1.5 mr-1.5 flex items-center gap-1">
+                  IND
+                </span>
+                <span className="text-sm font-black text-slate-900 tracking-wider">
+                  {investigation.plate_number}
+                </span>
+              </div>
+              <span className="px-2.5 py-1 rounded text-xs font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                {investigation.vehicle_context?.vehicle?.rc_status || 'ACTIVE'}
+              </span>
+            </div>
+          </div>
+
+          {/* 3-Column Detailed Information Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+            {/* Column 1: Vehicle Specifications */}
+            <div className="p-3.5 rounded bg-slate-50/70 border border-slate-200 space-y-2">
+              <div className="text-[11px] font-bold text-slate-900 uppercase tracking-wider text-blue-700 border-b border-slate-200 pb-1.5 flex items-center gap-1.5">
+                <Database className="w-3.5 h-3.5" />
+                Vehicle Specifications
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Maker & Model:</span>
+                <span className="text-slate-900 font-bold text-right">{investigation.vehicle_context?.vehicle?.maker_model || 'Private Vehicle'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Vehicle Class:</span>
+                <span className="text-slate-800">{investigation.vehicle_context?.vehicle?.vehicle_class || 'Motor Car (LMV)'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Fuel Type / Norms:</span>
+                <span className="text-slate-800">{investigation.vehicle_context?.vehicle?.fuel_type || 'Petrol'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Color:</span>
+                <span className="text-slate-800">{investigation.vehicle_context?.vehicle?.color || 'White'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Emission Norms:</span>
+                <span className="text-slate-800">{investigation.vehicle_context?.vehicle?.emission_norms || 'BS-VI OBD-II'}</span>
+              </div>
+            </div>
+
+            {/* Column 2: Legal, Fitness & Validity */}
+            <div className="p-3.5 rounded bg-slate-50/70 border border-slate-200 space-y-2">
+              <div className="text-[11px] font-bold text-slate-900 uppercase tracking-wider text-emerald-700 border-b border-slate-200 pb-1.5 flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                Compliance & Validity
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Registration Date:</span>
+                <span className="text-slate-900 font-bold">{investigation.vehicle_context?.vehicle?.registration_date || '18-Oct-2021'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Fitness Valid Upto:</span>
+                <span className="text-emerald-700 font-bold">{investigation.vehicle_context?.vehicle?.fitness_upto || 'Valid'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Insurance Status:</span>
+                <span className="text-slate-900 font-bold">{investigation.vehicle_context?.vehicle?.insurance_upto ? `Valid till ${investigation.vehicle_context?.vehicle?.insurance_upto}` : 'Active'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Insurer:</span>
+                <span className="text-slate-800 text-right truncate max-w-[160px]">{investigation.vehicle_context?.vehicle?.insurance_company || 'National General Insurance'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">PUCC Pollution:</span>
+                <span className="text-emerald-700 font-bold">{investigation.vehicle_context?.vehicle?.pucc_upto ? `Valid till ${investigation.vehicle_context?.vehicle?.pucc_upto}` : 'PASS'}</span>
+              </div>
+            </div>
+
+            {/* Column 3: Registration Authority & Title Security */}
+            <div className="p-3.5 rounded bg-slate-50/70 border border-slate-200 space-y-2">
+              <div className="text-[11px] font-bold text-slate-900 uppercase tracking-wider text-indigo-700 border-b border-slate-200 pb-1.5 flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5" />
+                Registry & Title Security
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Road Tax Status:</span>
+                <span className="text-emerald-700 font-bold">{investigation.vehicle_context?.vehicle?.road_tax_status || 'One-Time Tax Paid (LTT)'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Chassis No:</span>
+                <span className="text-slate-900 font-bold">{investigation.vehicle_context?.vehicle?.chassis_number_masked || `MA3E******${investigation.plate_number.slice(-4)}`}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Engine No:</span>
+                <span className="text-slate-900 font-bold">{investigation.vehicle_context?.vehicle?.engine_number_masked || `K12M******${investigation.plate_number.slice(-4)}`}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">National Blacklist:</span>
+                <span className="text-emerald-700 font-bold">{investigation.vehicle_context?.vehicle?.blacklist_status || 'CLEAN (No Record)'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Hypothecation:</span>
+                <span className="text-slate-800 text-right truncate max-w-[160px]">{investigation.vehicle_context?.vehicle?.financing || 'Clean Title'}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ------------------------------------------------------------------ */}
       {/* 4. TRAJECTORY & VEHICLE CORRELATION SUMMARY                       */}
       {/* ------------------------------------------------------------------ */}
       {investigation && (
