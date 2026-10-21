@@ -582,13 +582,17 @@ export const InvestigationPage: React.FC<InvestigationPageProps> = ({
 
       {/* When running investigation without existing result */}
       {!investigation && isRunning && (
-        <div className="bg-white border border-slate-200 rounded-md p-12 text-center shadow-2xs">
+        <div className="bg-white border border-slate-200 rounded-md p-10 text-center shadow-2xs">
           <RefreshCw className="w-8 h-8 text-blue-600 animate-spin mx-auto mb-3" />
           <h3 className="text-sm font-bold font-mono text-slate-900 uppercase tracking-wider">
-            TinyFish Autonomous Agent Investigating...
+            TinyFish Autonomous Agent Investigating Live...
           </h3>
-          <p className="text-xs text-slate-500 mt-1 font-mono">
-            Querying MoRTH Parivahan eChallan, Vahan Analytics, Delhi Traffic Police & Open Web Intel...
+          <div className="mt-2 inline-flex items-center gap-2 px-3 py-1 rounded bg-blue-50 border border-blue-200 text-blue-800 font-mono text-xs font-bold">
+            <span className="w-2 h-2 rounded-full bg-blue-600 animate-ping" />
+            <span>Target: {plateNumber.trim().toUpperCase()} &bull; Live URL: https://www.carinfo.app/rc-details/{plateNumber.trim().toUpperCase()}</span>
+          </div>
+          <p className="text-xs text-slate-500 mt-2 font-mono">
+            Extracting authentic owner name, vehicle maker & model, and RTO registration details in real time...
           </p>
         </div>
       )}
@@ -740,6 +744,16 @@ export const InvestigationPage: React.FC<InvestigationPageProps> = ({
               <span className="px-2.5 py-1 rounded text-xs font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                 {investigation.vehicle_context?.vehicle?.rc_status || 'ACTIVE'}
               </span>
+              <a
+                href={`https://www.carinfo.app/rc-details/${investigation.plate_number}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-2.5 py-1 rounded text-xs font-mono font-bold bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+                title="Verify live on CarInfo portal"
+              >
+                <ExternalLink className="w-3.5 h-3.5 text-blue-600" />
+                <span>View on CarInfo</span>
+              </a>
               <button
                 type="button"
                 onClick={handleOpenEditModal}
