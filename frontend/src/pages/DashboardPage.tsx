@@ -204,17 +204,17 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     isProcessingFrameRef.current = true;
 
     const video = videoRef.current;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
+    const captureCanvas = document.createElement('canvas');
+    captureCanvas.width = video.videoWidth || 640;
+    captureCanvas.height = video.videoHeight || 480;
+    const captureCtx = captureCanvas.getContext('2d');
+    if (!captureCtx) {
       isProcessingFrameRef.current = false;
       return;
     }
-    canvas.width = video.videoWidth || 640;
-    canvas.height = video.videoHeight || 480;
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    captureCtx.drawImage(video, 0, 0, captureCanvas.width, captureCanvas.height);
 
-    canvas.toBlob(async (blob) => {
+    captureCanvas.toBlob(async (blob) => {
       if (!blob) return;
       try {
         const res = await api.processFrame(blob, 'cam-01');
@@ -223,7 +223,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         if (res.detections && res.detections.length > 0) {
           setCurrentDetections(res.detections);
           setProcessingStatus('DETECTED');
-          drawDetectionsOnCanvas(res.detections, canvas.width, canvas.height);
+          drawDetectionsOnCanvas(res.detections, captureCanvas.width, captureCanvas.height);
 
           for (const det of res.detections) {
             if (det.normalized_plate.includes('ZZ0002') || det.plate_number.includes('DL 99 ZZ 0002')) {
@@ -239,6 +239,11 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           }
         } else {
           setProcessingStatus('SCANNING');
+          const canvas = canvasRef.current;
+          if (canvas) {
+            const ctx = canvas.getContext('2d');
+            if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+          }
         }
       } catch (e) {
         // silent error during loop
@@ -254,6 +259,10 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    canvas.width = w;
+    canvas.height = h;
+    ctx.clearRect(0, 0, w, h);
 
     detections.forEach(det => {
       const [x1, y1, x2, y2] = det.bbox;
@@ -469,13 +478,14 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             <div className="relative mt-2 rounded-md overflow-hidden bg-[#070b14] h-[240px] border border-slate-800 flex items-center justify-center">
               <video 
                 ref={videoRef} 
+                autoPlay
                 playsInline 
                 muted 
-                className="hidden" 
+                className={`w-full h-full object-cover ${isWebcamActive ? 'block' : 'hidden'}`} 
               />
               <canvas 
                 ref={canvasRef} 
-                className={`w-full h-full object-cover ${isWebcamActive ? 'block' : 'hidden'}`} 
+                className={`absolute inset-0 w-full h-full object-cover pointer-events-none ${isWebcamActive ? 'block' : 'hidden'}`} 
               />
 
               {!isWebcamActive && (
