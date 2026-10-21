@@ -104,21 +104,16 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           {/* LEFT: BRAND IDENTITY */}
           <div 
             onClick={() => onSelectTab('dashboard')}
-            className="flex items-center space-x-3 cursor-pointer group shrink-0"
+            className="flex items-center space-x-2.5 cursor-pointer group shrink-0"
           >
             <img 
               src="/nayan-logo.png" 
               alt="NAYAN Logo" 
-              className="h-9 w-auto max-w-[48px] object-contain shrink-0 group-hover:scale-105 transition-transform drop-shadow-xs" 
+              className="h-8 w-auto max-w-[44px] object-contain shrink-0 group-hover:scale-105 transition-transform drop-shadow-xs" 
             />
-            <div>
-              <div className="font-extrabold tracking-wider text-slate-900 text-sm leading-tight">
-                NAYAN
-              </div>
-              <div className="text-[8.5px] font-mono tracking-wider text-slate-400 uppercase truncate font-medium">
-                Autonomous Vehicle Intelligence & Traffic Surveillance
-              </div>
-            </div>
+            <span className="font-extrabold tracking-wider text-slate-900 text-base leading-none">
+              NAYAN
+            </span>
           </div>
 
           {/* RIGHT: SEARCH, STATUS & CLOCKS */}
