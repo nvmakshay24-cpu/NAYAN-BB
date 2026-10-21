@@ -29,7 +29,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   const [timeStr, setTimeStr] = useState<string>('');
   const [utcTimeStr, setUtcTimeStr] = useState<string>('');
   const [backendOnline, setBackendOnline] = useState<boolean>(true);
-  const [isDemoLoading, setIsDemoLoading] = useState<boolean>(false);
   const [actionNotice, setActionNotice] = useState<string | null>(null);
   const [globalSearch, setGlobalSearch] = useState<string>('');
 
@@ -73,38 +72,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
     }, 20000);
     return () => clearInterval(poll);
   }, []);
-
-  const handleLoadDemo = async () => {
-    setIsDemoLoading(true);
-    setOpenDropdown(null);
-    try {
-      const res = await api.loadDemoData();
-      setActionNotice(`Demo dataset loaded (${res.demo_vehicles_count} vehicles, 5,000+ reads).`);
-      onToggleMode('demo');
-      if (onReloadData) onReloadData();
-      setTimeout(() => setActionNotice(null), 3500);
-    } catch (err: any) {
-      console.error('Failed to load demo data:', err);
-    } finally {
-      setIsDemoLoading(false);
-    }
-  };
-
-  const handleClearDemo = async () => {
-    setIsDemoLoading(true);
-    setOpenDropdown(null);
-    try {
-      await api.clearDemoData();
-      setActionNotice('Demo dataset purged. Pure live operations active.');
-      onToggleMode('live');
-      if (onReloadData) onReloadData();
-      setTimeout(() => setActionNotice(null), 3500);
-    } catch (err: any) {
-      console.error('Failed to clear demo data:', err);
-    } finally {
-      setIsDemoLoading(false);
-    }
-  };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -451,46 +418,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                     <div className="text-[10px] text-slate-400">OCR thresholds & sound chimes</div>
                   </div>
                 </button>
-
-                <div className="my-1.5 border-t border-slate-100"></div>
-
-                <div className="px-3.5 py-1 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
-                  Operation Environment
-                </div>
-                <div className="px-3.5 py-1.5 flex items-center justify-between">
-                  <span className="text-xs text-slate-700 font-medium">Mode</span>
-                  <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg text-[10px] font-bold">
-                    <button
-                      onClick={() => onToggleMode('live')}
-                      className={`px-2 py-0.5 rounded ${mode === 'live' ? 'bg-emerald-500 text-white shadow-xs' : 'text-slate-600'}`}
-                    >
-                      LIVE
-                    </button>
-                    <button
-                      onClick={() => onToggleMode('demo')}
-                      className={`px-2 py-0.5 rounded ${mode === 'demo' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600'}`}
-                    >
-                      DEMO
-                    </button>
-                  </div>
-                </div>
-
-                <div className="px-3.5 pt-1 space-y-1">
-                  <button
-                    onClick={handleLoadDemo}
-                    disabled={isDemoLoading}
-                    className="w-full text-center py-1.5 px-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-semibold cursor-pointer transition-colors"
-                  >
-                    {isDemoLoading ? 'Loading...' : 'Populate Demo Dataset'}
-                  </button>
-                  <button
-                    onClick={handleClearDemo}
-                    disabled={isDemoLoading}
-                    className="w-full text-center py-1.5 px-2 bg-slate-50 hover:bg-rose-50 text-slate-600 hover:text-rose-600 rounded-lg text-xs font-medium cursor-pointer transition-colors"
-                  >
-                    Purge Dataset (Clean Live)
-                  </button>
-                </div>
               </div>
             )}
           </div>
