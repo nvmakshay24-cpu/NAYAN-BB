@@ -59,7 +59,7 @@ Designed to operate in complex, real-world Indian traffic environments, NAYAN ma
 
 ### 5. Autonomous Multi-Source Vehicle Investigation (TinyFish Engine)
 - **Deep Cross-Source Correlation**: Automatically queries external data sources across the target date window:
-  - MoRTH Parivahan eChallan (`echallan.parivahan.nic.in`)
+  - MoRTH Parivahan eChallan (`echallan.parivahan.gov.in`)
   - MoRTH Vahan Citizen & Analytics (`analytics.parivahan.gov.in`)
   - Delhi Traffic Police Portal (`traffic.delhipolice.gov.in`)
   - Date-bound public news and corridor incident records

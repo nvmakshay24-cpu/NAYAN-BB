@@ -782,7 +782,7 @@ export const InvestigationPage: React.FC<InvestigationPageProps> = ({
                   </span>
                 </div>
                 <div className="text-[10px] font-mono text-slate-400 truncate mb-2.5">
-                  echallan.parivahan.nic.in
+                  echallan.parivahan.gov.in
                 </div>
                 <div className="p-2.5 rounded bg-slate-50 border border-slate-200 mb-2.5 space-y-1 text-xs font-mono">
                   <div className="flex justify-between">
@@ -800,7 +800,7 @@ export const InvestigationPage: React.FC<InvestigationPageProps> = ({
               </div>
               <div className="mt-3 pt-2.5 border-t border-slate-100">
                 <a
-                  href="https://echallan.parivahan.nic.in/"
+                  href="https://echallan.parivahan.gov.in/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[11px] font-mono text-blue-600 hover:text-blue-800 flex items-center gap-1 font-bold"
