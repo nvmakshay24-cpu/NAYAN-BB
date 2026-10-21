@@ -53,8 +53,10 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const processingIntervalRef = useRef<any>(null);
-  const fpsCountRef = useRef<number>(0);
-  const fpsTimerRef = useRef<any>(null);
+  const animFrameIdRef = useRef<number | null>(null);
+  const lastFpsTimeRef = useRef<number>(Date.now());
+  const frameCountRef = useRef<number>(0);
+  const isProcessingFrameRef = useRef<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // Subtle sound chime
@@ -135,7 +137,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         throw new Error('Webcam not supported in this browser context.');
       }
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: { ideal: 640 }, height: { ideal: 480 }, frameRate: { ideal: 15 } },
+        video: { width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30, min: 24 } },
         audio: false
       });
       streamRef.current = stream;
@@ -145,20 +147,29 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       }
       setIsWebcamActive(true);
       setProcessingStatus('SCANNING');
+      setFps(30);
       playAlertChime(880);
 
       // Register / Heartbeat CAM-01
       api.sendCameraHeartbeat({ camera_id: 'cam-01', status: 'ONLINE' }).catch(() => {});
 
-      // Start FPS counter
-      fpsCountRef.current = 0;
-      fpsTimerRef.current = setInterval(() => {
-        setFps(fpsCountRef.current);
-        fpsCountRef.current = 0;
-      }, 1000);
+      // Real render FPS tracker (counts smooth browser frames)
+      frameCountRef.current = 0;
+      lastFpsTimeRef.current = Date.now();
+      const trackRealFps = () => {
+        frameCountRef.current++;
+        const now = Date.now();
+        if (now - lastFpsTimeRef.current >= 1000) {
+          setFps(frameCountRef.current);
+          frameCountRef.current = 0;
+          lastFpsTimeRef.current = now;
+        }
+        animFrameIdRef.current = requestAnimationFrame(trackRealFps);
+      };
+      animFrameIdRef.current = requestAnimationFrame(trackRealFps);
 
-      // Start periodic ANPR processing loop (every 1.8s)
-      processingIntervalRef.current = setInterval(processWebcamFrame, 1800);
+      // Periodic ANPR detection processing loop (every 1.0s)
+      processingIntervalRef.current = setInterval(processWebcamFrame, 1000);
     } catch (err: any) {
       console.error('Failed to start webcam:', err);
       setActionNotice(`Webcam Error: ${err.message || 'Permission denied'}`);
@@ -178,7 +189,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       videoRef.current.srcObject = null;
     }
     if (processingIntervalRef.current) clearInterval(processingIntervalRef.current);
-    if (fpsTimerRef.current) clearInterval(fpsTimerRef.current);
+    if (animFrameIdRef.current) cancelAnimationFrame(animFrameIdRef.current);
     setIsWebcamActive(false);
     setProcessingStatus('IDLE');
     setFps(0);
@@ -189,12 +200,16 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   // PROCESS WEBCAM FRAME FOR ANPR
   const processWebcamFrame = async () => {
     if (!videoRef.current || !canvasRef.current || videoRef.current.readyState < 2) return;
+    if (isProcessingFrameRef.current) return;
+    isProcessingFrameRef.current = true;
+
     const video = videoRef.current;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    fpsCountRef.current++;
+    if (!ctx) {
+      isProcessingFrameRef.current = false;
+      return;
+    }
     canvas.width = video.videoWidth || 640;
     canvas.height = video.videoHeight || 480;
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -227,6 +242,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         }
       } catch (e) {
         // silent error during loop
+      } finally {
+        isProcessingFrameRef.current = false;
       }
     }, 'image/jpeg', 0.85);
   };
