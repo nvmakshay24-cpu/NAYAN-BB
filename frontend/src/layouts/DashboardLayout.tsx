@@ -110,11 +110,8 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               N
             </div>
             <div>
-              <div className="font-extrabold tracking-wider text-slate-900 text-sm leading-tight flex items-center gap-1.5">
+              <div className="font-extrabold tracking-wider text-slate-900 text-sm leading-tight">
                 NAYAN
-                <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-blue-50 text-blue-600 border border-blue-200/70">
-                  ATMS
-                </span>
               </div>
               <div className="text-[8.5px] font-mono tracking-wider text-slate-400 uppercase truncate font-medium">
                 Autonomous Vehicle Intelligence & Traffic Surveillance
