@@ -106,9 +106,11 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             onClick={() => onSelectTab('dashboard')}
             className="flex items-center space-x-3 cursor-pointer group shrink-0"
           >
-            <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white font-extrabold text-sm shadow-xs group-hover:bg-blue-700 transition-colors">
-              N
-            </div>
+            <img 
+              src="/nayan-logo.png" 
+              alt="NAYAN Logo" 
+              className="h-9 w-auto max-w-[48px] object-contain shrink-0 group-hover:scale-105 transition-transform drop-shadow-xs" 
+            />
             <div>
               <div className="font-extrabold tracking-wider text-slate-900 text-sm leading-tight">
                 NAYAN
