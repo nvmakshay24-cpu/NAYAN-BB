@@ -43,7 +43,7 @@ async def start_investigation(
             "alert_severity": v_profile.get("alerts", [{}])[0].get("severity") if v_profile.get("alerts") else None,
             "observations_count": len(v_profile.get("observations", [])),
         }
-    vehicle_context = resolve_vehicle_rc_profile(norm_plate, base_context)
+    vehicle_context = await asyncio.to_thread(resolve_vehicle_rc_profile, norm_plate, base_context)
     # 2. Retrieve Nayan Trajectory Data
     observations = supabase_service.get_observations(plate=norm_plate, limit=100, mode="all")
     cams = supabase_service.get_cameras()
