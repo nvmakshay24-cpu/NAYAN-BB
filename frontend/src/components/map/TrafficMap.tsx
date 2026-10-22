@@ -16,41 +16,48 @@ interface TrafficMapProps {
   showControls?: boolean;
 }
 
-type MapLayerType = 'google_roadmap' | 'google_traffic' | 'google_satellite' | 'google_terrain' | 'carto_dark';
+type MapLayerType = 'carto_voyager' | 'google_roadmap' | 'google_traffic' | 'google_satellite' | 'google_terrain' | 'carto_dark';
 
-const TILE_LAYERS: Record<MapLayerType, { url: string; attribution: string; subdomains: string; maxZoom: number; label: string }> = {
+const TILE_LAYERS: Record<MapLayerType, { url: string; attribution: string; subdomains: string[] | string; maxZoom: number; label: string }> = {
+  carto_voyager: {
+    url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    attribution: '&copy; OpenStreetMap &copy; CARTO',
+    subdomains: ['a', 'b', 'c', 'd'],
+    maxZoom: 20,
+    label: 'Roadmap (HD)'
+  },
   google_roadmap: {
     url: 'https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
     attribution: '&copy; Google Maps',
-    subdomains: '0123',
+    subdomains: ['0', '1', '2', '3'],
     maxZoom: 20,
     label: 'Google Maps'
   },
   google_traffic: {
     url: 'https://mt{s}.google.com/vt/lyrs=m,traffic&x={x}&y={y}&z={z}',
     attribution: '&copy; Google Maps',
-    subdomains: '0123',
+    subdomains: ['0', '1', '2', '3'],
     maxZoom: 20,
     label: 'Live Traffic'
   },
   google_satellite: {
     url: 'https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
     attribution: '&copy; Google Maps',
-    subdomains: '0123',
+    subdomains: ['0', '1', '2', '3'],
     maxZoom: 20,
-    label: 'Satellite Hybrid'
+    label: 'Satellite'
   },
   google_terrain: {
     url: 'https://mt{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',
     attribution: '&copy; Google Maps',
-    subdomains: '0123',
+    subdomains: ['0', '1', '2', '3'],
     maxZoom: 20,
     label: 'Terrain'
   },
   carto_dark: {
     url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
     attribution: '&copy; OpenStreetMap &copy; CARTO',
-    subdomains: 'abcd',
+    subdomains: ['a', 'b', 'c', 'd'],
     maxZoom: 19,
     label: 'Dark Mode'
   }
@@ -97,6 +104,34 @@ export const TrafficMap: React.FC<TrafficMapProps> = ({
     }
   }, []);
 
+  // Helper to safely create tile layer with fallback
+  const createTileLayer = useCallback((layerKey: MapLayerType) => {
+    const config = TILE_LAYERS[layerKey];
+    const layer = L.tileLayer(config.url, {
+      attribution: config.attribution,
+      subdomains: config.subdomains,
+      maxZoom: config.maxZoom
+    });
+
+    // Fallback if Google tile fails (e.g. ad-blocker or network restriction)
+    layer.on('tileerror', () => {
+      if (layerKey.startsWith('google') && mapInstanceRef.current && currentTileLayerRef.current === layer) {
+        console.warn('Google Maps tile failed, falling back to Carto HD.');
+        mapInstanceRef.current.removeLayer(layer);
+        const fbConfig = TILE_LAYERS.carto_voyager;
+        const fbLayer = L.tileLayer(fbConfig.url, {
+          attribution: fbConfig.attribution,
+          subdomains: fbConfig.subdomains,
+          maxZoom: fbConfig.maxZoom
+        }).addTo(mapInstanceRef.current);
+        currentTileLayerRef.current = fbLayer;
+        setActiveLayer('carto_voyager');
+      }
+    });
+
+    return layer;
+  }, []);
+
   // Initialize Map
   useEffect(() => {
     if (!mapContainerRef.current || mapInstanceRef.current) return;
@@ -108,20 +143,34 @@ export const TrafficMap: React.FC<TrafficMapProps> = ({
       zoomControl: false,
     });
 
-    // Default to Google Maps Standard Roadmap
-    const config = TILE_LAYERS.google_roadmap;
-    const tileLayer = L.tileLayer(config.url, {
-      attribution: config.attribution,
-      subdomains: config.subdomains,
-      maxZoom: config.maxZoom
-    }).addTo(map);
+    const tileLayer = createTileLayer(activeLayer).addTo(map);
 
     currentTileLayerRef.current = tileLayer;
     markersLayerRef.current = L.layerGroup().addTo(map);
     routeLayerRef.current = L.layerGroup().addTo(map);
     mapInstanceRef.current = map;
 
+    // Immediate and staged invalidateSize to handle flex/grid layout
+    map.invalidateSize();
+    const t1 = setTimeout(() => map.invalidateSize(), 80);
+    const t2 = setTimeout(() => map.invalidateSize(), 250);
+    const t3 = setTimeout(() => map.invalidateSize(), 600);
+
+    let ro: ResizeObserver | null = null;
+    if (window.ResizeObserver && mapContainerRef.current) {
+      ro = new ResizeObserver(() => {
+        if (mapInstanceRef.current) {
+          mapInstanceRef.current.invalidateSize();
+        }
+      });
+      ro.observe(mapContainerRef.current);
+    }
+
     return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      if (ro) ro.disconnect();
       map.remove();
       mapInstanceRef.current = null;
     };
@@ -136,13 +185,7 @@ export const TrafficMap: React.FC<TrafficMapProps> = ({
       mapInstanceRef.current.removeLayer(currentTileLayerRef.current);
     }
 
-    const config = TILE_LAYERS[layerType];
-    const newTileLayer = L.tileLayer(config.url, {
-      attribution: config.attribution,
-      subdomains: config.subdomains,
-      maxZoom: config.maxZoom
-    }).addTo(mapInstanceRef.current);
-
+    const newTileLayer = createTileLayer(layerType).addTo(mapInstanceRef.current);
     currentTileLayerRef.current = newTileLayer;
     playChime(660);
   };
@@ -406,8 +449,15 @@ export const TrafficMap: React.FC<TrafficMapProps> = ({
   const ipCount = cameras.filter(c => c.camera_type === 'IP_CAMERA').length;
 
   return (
-    <div className="relative rounded-lg overflow-hidden border border-gray-200 shadow-2xs group" style={{ height }}>
-      <div ref={mapContainerRef} className="w-full h-full" />
+    <div 
+      className="relative w-full rounded-lg overflow-hidden border border-gray-200 shadow-2xs group bg-slate-100" 
+      style={{ height, minHeight: height === '100%' ? '240px' : height }}
+    >
+      <div 
+        ref={mapContainerRef} 
+        className="w-full h-full" 
+        style={{ minHeight: height === '100%' ? '240px' : height }}
+      />
 
       {/* Google Maps Brand Badge */}
       {activeLayer.startsWith('google') && (

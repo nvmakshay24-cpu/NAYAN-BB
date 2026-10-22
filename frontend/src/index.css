@@ -52,9 +52,9 @@ aside nav::-webkit-scrollbar-thumb:hover {
   background: #cbd5e1;
 }
 
-/* Leaflet Clean Dark Command Theme */
+/* Leaflet Clean Theme */
 .leaflet-container {
-  background-color: #090E1A !important;
+  background-color: #f1f5f9 !important;
   font-family: 'Inter', system-ui, sans-serif !important;
 }
 
